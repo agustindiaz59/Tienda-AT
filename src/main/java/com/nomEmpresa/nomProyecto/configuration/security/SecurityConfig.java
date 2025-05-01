@@ -35,8 +35,8 @@ public class SecurityConfig {
         return filters
                 .authorizeHttpRequests( (request) -> request
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/admin/nuevo").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/login/crear").permitAll()
+                        .anyRequest().denyAll()
                 )
                 .cors(Customizer.withDefaults())
                 .userDetailsService(autenticacionService)
