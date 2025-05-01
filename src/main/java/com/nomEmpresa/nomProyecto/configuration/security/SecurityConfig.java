@@ -15,6 +15,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -31,9 +38,9 @@ public class SecurityConfig {
                         .requestMatchers("/admin/nuevo").permitAll()
                         .anyRequest().permitAll()
                 )
+                .cors(Customizer.withDefaults())
                 .userDetailsService(autenticacionService)
                 //.cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         )
@@ -60,6 +67,25 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return authenticationProvider;
+    }
+
+    /**
+     * Politica de CORS, este bean se utiliza en aplicaciones del tipo REST en logar de WebMvcConfigurer
+     *
+     * @return cors configurado
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
 

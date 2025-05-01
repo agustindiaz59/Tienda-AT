@@ -21,13 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin(origins = {})
 @RestController
 @RequestMapping("/admin")
 @Tag(
         name = "Controlador de dministrador",
         description = "Acciones restringidas solo para el administrador logeado con usuario y contraseña"
 )
+
 public class AdminController {
 
     @Autowired
