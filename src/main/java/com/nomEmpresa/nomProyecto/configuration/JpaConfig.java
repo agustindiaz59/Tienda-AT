@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.sql.DataSource;
@@ -28,13 +30,21 @@ public class JpaConfig {
 
     @Bean
     public DataSource dataSource(){
-        return DataSourceBuilder
-                .create()
-                .driverClassName(driver)
-                .username(usuario)
-                .password(contrasenia)
-                .url(url)
-                .build();
+        SingleConnectionDataSource ds = new SingleConnectionDataSource();
+        ds.setUrl(url);
+        ds.setDriverClassName(driver);
+        ds.setUsername(usuario);
+        ds.setPassword(contrasenia);
+
+        return ds;
+
+//        return DataSourceBuilder
+//                .create()
+//                .driverClassName(driver)
+//                .username(usuario)
+//                .password(contrasenia)
+//                .url(url)
+//                .build();
     }
 
 
