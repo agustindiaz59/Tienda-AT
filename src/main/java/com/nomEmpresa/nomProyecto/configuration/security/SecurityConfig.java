@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .anyRequest().denyAll()
                 )
                 .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(autenticacionService)
                 //.cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm ->
