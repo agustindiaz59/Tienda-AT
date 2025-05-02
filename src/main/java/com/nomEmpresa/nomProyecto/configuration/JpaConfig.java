@@ -35,6 +35,7 @@ public class JpaConfig {
         ds.setDriverClassName(driver);
         ds.setUsername(usuario);
         ds.setPassword(contrasenia);
+        ds.setSuppressClose(true);
 
         return ds;
 
