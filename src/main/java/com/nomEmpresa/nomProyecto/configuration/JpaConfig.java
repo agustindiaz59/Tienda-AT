@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.jdbc.datasource.SmartDataSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.sql.DataSource;
@@ -30,12 +31,11 @@ public class JpaConfig {
 
     @Bean
     public DataSource dataSource(){
-        SingleConnectionDataSource ds = new SingleConnectionDataSource();
+        DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setUrl(url);
         ds.setDriverClassName(driver);
         ds.setUsername(usuario);
         ds.setPassword(contrasenia);
-        ds.setSuppressClose(true);
 
         return ds;
 
