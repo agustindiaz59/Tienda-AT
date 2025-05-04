@@ -167,6 +167,9 @@ public class BucketService {
 
 
 
+
+
+
     /**
      * Elimina un archivo multimedia a través de su URL de Wasabi
      *
@@ -184,6 +187,9 @@ public class BucketService {
     }
 
 
+
+
+
     /**
      * Obtiene un archivo desde el almacenamiento de Wasabi a través de su URL
      *
@@ -191,21 +197,26 @@ public class BucketService {
      * @return
      */
     public ResponseEntity<byte[]> getArchivo(String urlMultimedia) {
-        try{
+
+
+        try {
             //Trae el archivo desde wasabi y verifica que se obtenga
-            S3Object archivo = null;
-            S3ObjectInputStream inputStream = null;
-            try {
-                archivo = s3.getObject(nombreBucket, urlMultimedia);
-                inputStream = archivo.getObjectContent();
-            } catch (SdkClientException e) {
-                return ResponseEntity.notFound().build();
-            }
+            S3Object archivo = s3.getObject(nombreBucket, urlMultimedia);
+            S3ObjectInputStream inputStream = archivo.getObjectContent();
+
 
             //Convierte el archivo en una cadena de bytes para enviar
             byte[] content = inputStream.readAllBytes();
             String contentType = archivo.getObjectMetadata().getContentType();
             String filename = urlMultimedia.substring(urlMultimedia.lastIndexOf("/") + 1);
+
+            // Validaciones básicas
+            if (content == null || content.length == 0) {
+                return ResponseEntity.notFound().build();
+            }
+            if (contentType == null || contentType.isEmpty()) {
+                contentType = "application/octet-stream"; // Valor por defecto
+            }
 
             //Arma la respuesta HTTP
             return ResponseEntity.ok()
@@ -214,6 +225,7 @@ public class BucketService {
                     .body(content);
 
         }
+
         catch(SdkClientException e){
             System.out.println("-- Error trayendo el archivo: " + urlMultimedia);
             return ResponseEntity.notFound().build();
@@ -224,6 +236,15 @@ public class BucketService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
+
+
+
+
+
+
+
 
     public ResponseEntity<String> deleteGaleria(String idGaleria) {
         

@@ -127,10 +127,16 @@ public class MultimediaController {
             }
     )
     @GetMapping("/archivo")
+    @ResponseBody
     public ResponseEntity<byte[]> traerMultimedia(
-            @RequestParam("urlMultimedia") String urlMultimedia
+            @RequestParam("urlMultimedia") String urlMultimedia,
+            @RequestParam(value = "comp", required = false, defaultValue = "false") Boolean comprimido
     ){
-        return multimediaService.getArchivo(urlMultimedia);
+        if(comprimido){
+            return multimediaService.getArchivoComprimido(urlMultimedia);
+        }else{
+            return multimediaService.getArchivoCompleto(urlMultimedia);
+        }
     }
 
 }
