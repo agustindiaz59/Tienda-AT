@@ -130,7 +130,7 @@ public class MultimediaController {
     @ResponseBody
     public ResponseEntity<byte[]> traerMultimedia(
             @RequestParam("urlMultimedia") String urlMultimedia,
-            @RequestParam(value = "comp", required = false, defaultValue = "false") Boolean comprimido
+            @RequestParam(value = "comprimido", required = false, defaultValue = "false") Boolean comprimido
     ){
         if(comprimido){
             return multimediaService.getArchivoComprimido(urlMultimedia);
