@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -39,7 +39,36 @@ public class GaleriaService {
      *
      * @return Listado de galerias
      */
-    public ResponseEntity<List<GaleriaDTO>> listarGalerias() {
+    public ResponseEntity<List<GaleriaDTO>> listarGalerias(Boolean archivos) {
+        List<GaleriaDTO> galeriasDTO;
+
+        if(!archivos){
+            galeriasDTO = galeriaRepository.findAllWithDetails()
+                    .stream()
+                    .map(g -> GaleriaMapper.galeriaDTO(g, false))
+                    .toList();
+        }else {
+            galeriasDTO = galeriaRepository
+                .findAllWithDetails()
+                .stream()
+                .map(Galeria::getDTO)
+                .toList();
+        }
+
+
+        return ResponseEntity.ofNullable(galeriasDTO);
+    }
+
+
+
+
+
+    /**
+     * Lista todas las galerias en el sistema
+     *
+     * @return Listado de galerias
+     */
+    public ResponseEntity<List<GaleriaDTO>> listarGaleriasSinArchivos() {
         List<GaleriaDTO> galeriasDTO = galeriaRepository
                 .findAllWithDetails()
                 .stream()

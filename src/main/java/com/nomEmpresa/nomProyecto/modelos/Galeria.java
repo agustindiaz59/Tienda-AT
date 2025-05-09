@@ -48,7 +48,10 @@ public class Galeria {
 
     @Transient
     public GaleriaDTO getDTO(){
-        Set<MultimediaDTO> dtoArchivos = multimedias.stream().map(Multimedia::getDTO).collect(Collectors.toSet());
+        Set<MultimediaDTO> dtoArchivos = multimedias
+                .stream()
+                .map(Multimedia::getDTO)
+                .collect(Collectors.toSet());
 
         if (imgPerfil == null && imgBanner == null)
             return new GaleriaDTO(

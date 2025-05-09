@@ -3,6 +3,7 @@ package com.nomEmpresa.nomProyecto.controladores;
 import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
+import com.nomEmpresa.nomProyecto.servicio.Validador;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -96,7 +97,13 @@ public class MultimediaController {
             HttpServletRequest request
     ){
 
-        return multimediaService.agregarMultimedia(idGaleria, archivo, request);
+        if(Validador.validarFormatoMultimedia(archivo)){
+            return multimediaService.agregarMultimedia(idGaleria, archivo, request);
+        }else {
+            return ResponseEntity
+                    .badRequest()
+                    .body("-- Formato de imagenes incorrecto, utilizar jpg, jpeg, png o heic");
+        }
     }
 
 
@@ -130,10 +137,12 @@ public class MultimediaController {
     @ResponseBody
     public ResponseEntity<byte[]> traerMultimedia(
             @RequestParam("urlMultimedia") String urlMultimedia,
-            @RequestParam(value = "comprimido", required = false, defaultValue = "false") Boolean comprimido
+            @RequestParam(value = "comprimido", required = false, defaultValue = "false") Boolean comprimido,
+            @RequestParam(value = "tazaCompresion", required = false, defaultValue = "3") Integer tazaCompresion
+
     ){
         if(comprimido){
-            return multimediaService.getArchivoComprimido(urlMultimedia);
+            return multimediaService.getArchivoComprimido(urlMultimedia, tazaCompresion);
         }else{
             return multimediaService.getArchivoCompleto(urlMultimedia);
         }

@@ -104,7 +104,7 @@ public class MultimediaService {
      * @param urlMultimedia Url relativa al bucket
      * @return Archivo multimedia solicitado
      */
-    public ResponseEntity<byte[]> getArchivoComprimido(String urlMultimedia){
+    public ResponseEntity<byte[]> getArchivoComprimido(String urlMultimedia, Integer porcion){
 
         //Obtengo la imagen en crudo
         byte[] crudo = bucketService.getArchivo(urlMultimedia).getBody();
@@ -126,8 +126,8 @@ public class MultimediaService {
 
                 //Obtiene una decima parte de la imagen
                 String format = reader.getFormatName(); // Ej: "JPEG", "PNG"
-                int width = originalImage.getWidth() / 5;
-                int height = originalImage.getHeight() / 5;
+                int width = originalImage.getWidth() / porcion;
+                int height = originalImage.getHeight() / porcion;
 
 
                 //Reduzco la imagen

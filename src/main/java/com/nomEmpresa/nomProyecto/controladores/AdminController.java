@@ -6,6 +6,7 @@ import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaMultipartDTO;
 import com.nomEmpresa.nomProyecto.servicio.AdministradorService;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
+import com.nomEmpresa.nomProyecto.servicio.Validador;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -70,8 +71,11 @@ public class AdminController {
             }
     )
     @GetMapping("/galerias/listar")
-    public ResponseEntity<List<GaleriaDTO>> listarGalerias(){
-        return galeriaService.listarGalerias();
+    public ResponseEntity<List<GaleriaDTO>> listarGalerias(
+            @RequestParam(value = "archivos",required = false, defaultValue = "true") Boolean archivos
+    ){
+
+        return galeriaService.listarGalerias(archivos);
     }
 
 
@@ -107,7 +111,17 @@ public class AdminController {
             @RequestParam(value = "imagen-banner", required = false) MultipartFile imagenBanner,
             HttpServletRequest request
     ){
-        return galeriaService.crearGaleria(nombre, imagenPerfil, imagenBanner, request);
+        if(
+                Validador.validarFormatoMultimedia(imagenBanner) &&
+                Validador.validarFormatoMultimedia(imagenPerfil)
+        )
+        {
+            return galeriaService.crearGaleria(nombre, imagenPerfil, imagenBanner, request);
+        }else {
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
     }
 
 
