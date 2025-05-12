@@ -148,7 +148,7 @@ public class GaleriaService {
         nuevo.setNombre(nombre);
 
         //Verifico la existencia de las imagenes antes de nada
-        if(imagenPerfil != null){
+        if(imagenPerfil != null && Validador.validarFormatoMultimedia(imagenPerfil)){
             Multimedia perfil = new Multimedia();
             String urlPerfil = bucketService
                     .uploadMulti(nuevo,imagenPerfil,request)
@@ -159,7 +159,7 @@ public class GaleriaService {
             nuevo.setImgPerfil(perfil);
         }
 
-        if (imagenBanner != null){
+        if (imagenBanner != null && Validador.validarFormatoMultimedia(imagenBanner)){
             Multimedia banner = new Multimedia();
 
             String urlBanner = bucketService

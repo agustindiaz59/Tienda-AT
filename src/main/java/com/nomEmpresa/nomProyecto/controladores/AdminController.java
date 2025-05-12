@@ -111,17 +111,9 @@ public class AdminController {
             @RequestParam(value = "imagen-banner", required = false) MultipartFile imagenBanner,
             HttpServletRequest request
     ){
-        if(
-                Validador.validarFormatoMultimedia(imagenBanner) &&
-                Validador.validarFormatoMultimedia(imagenPerfil)
-        )
-        {
-            return galeriaService.crearGaleria(nombre, imagenPerfil, imagenBanner, request);
-        }else {
-            return ResponseEntity
-                    .badRequest()
-                    .build();
-        }
+
+        return galeriaService.crearGaleria(nombre, imagenPerfil, imagenBanner, request);
+
     }
 
 
