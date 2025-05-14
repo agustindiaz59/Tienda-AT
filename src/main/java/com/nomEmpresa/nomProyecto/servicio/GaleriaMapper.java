@@ -33,7 +33,8 @@ public abstract class GaleriaMapper {
                     galeria.getIdGaleria(),
                     dtoArchivos,
                     galeria.getNombre(),
-                    galeria.getFechaDeCreacion()
+                    galeria.getFechaDeCreacion(),
+                    galeria.getNotas()
             );
         if (galeria.getImgBanner() == null)
             return new GaleriaDTO(
@@ -41,7 +42,8 @@ public abstract class GaleriaMapper {
                     galeria.getImgPerfil().getDTO(),
                     dtoArchivos,
                     galeria.getNombre(),
-                    galeria.getFechaDeCreacion()
+                    galeria.getFechaDeCreacion(),
+                    galeria.getNotas()
             );
         if (galeria.getImgPerfil() == null)
             return new GaleriaDTO(
@@ -49,7 +51,8 @@ public abstract class GaleriaMapper {
                     dtoArchivos,
                     galeria.getNombre(),
                     galeria.getFechaDeCreacion(),
-                    galeria.getImgBanner().getDTO()
+                    galeria.getImgBanner().getDTO(),
+                    galeria.getNotas()
             );
         return new GaleriaDTO(
                 galeria.getIdGaleria(),
@@ -57,7 +60,8 @@ public abstract class GaleriaMapper {
                 galeria.getImgBanner().getDTO(),
                 dtoArchivos,
                 galeria.getNombre(),
-                galeria.getFechaDeCreacion()
+                galeria.getFechaDeCreacion(),
+                galeria.getNotas()
         );
     }
 

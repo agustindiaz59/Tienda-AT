@@ -4,6 +4,7 @@ import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -176,5 +177,34 @@ public class MultimediaService {
      */
     public ResponseEntity<String> deleteArchivo(String rutaArchivo) {
         return bucketService.deleteMulti(rutaArchivo);
+    }
+
+
+    /**
+     *
+     * @param idGaleria
+     * @param nota
+     * @return
+     */
+    @Transactional
+    public ResponseEntity<GaleriaDTO> agregarNota(String idGaleria, String nota) {
+        Optional<Galeria> galeria = galeriaRepository.findById(idGaleria);
+
+        //Verifico la existencia
+        if(galeria.isEmpty()){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
+
+        //Agrego la nota
+        Galeria editado = galeria.get();
+        editado.getNotas().add(nota);
+
+        //Guardo en la BBDD
+        galeriaRepository.save(editado);
+
+        return ResponseEntity
+                .ok(editado.getDTO());
     }
 }

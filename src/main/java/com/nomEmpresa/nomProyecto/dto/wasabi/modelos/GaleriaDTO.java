@@ -3,6 +3,7 @@ package com.nomEmpresa.nomProyecto.dto.wasabi.modelos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 public record GaleriaDTO(
@@ -13,7 +14,8 @@ public record GaleriaDTO(
         MultimediaDTO imagenBanner,
         Set<MultimediaDTO> archivos,
         String nombre,
-        LocalDate fechaDeCreacion
+        LocalDate fechaDeCreacion,
+        List<String> notas
 ) {
 
 
@@ -23,9 +25,10 @@ public record GaleriaDTO(
             String idGaleria,
             Set<MultimediaDTO> archivos,
             String nombre,
-            LocalDate fechaDeCreacion
+            LocalDate fechaDeCreacion,
+            List<String> notas
     ){
-        this(idGaleria,null,null,archivos,nombre,fechaDeCreacion);
+        this(idGaleria,null,null,archivos,nombre,fechaDeCreacion, notas);
     }
 
 
@@ -36,9 +39,10 @@ public record GaleriaDTO(
             MultimediaDTO imagenPerfil,
             Set<MultimediaDTO> archivos,
             String nombre,
-            LocalDate fechaDeCreacion
+            LocalDate fechaDeCreacion,
+            List<String> notas
     ){
-        this(idGaleria,imagenPerfil,null,archivos,nombre,fechaDeCreacion);
+        this(idGaleria,imagenPerfil,null,archivos,nombre,fechaDeCreacion,notas);
     }
 
 
@@ -50,9 +54,24 @@ public record GaleriaDTO(
             Set<MultimediaDTO> archivos,
             String nombre,
             LocalDate fechaDeCreacion,
-            MultimediaDTO imagenBanner
+            MultimediaDTO imagenBanner,
+            List<String> notas
     ){
-        this(idGaleria,null,imagenBanner,archivos,nombre,fechaDeCreacion);
+        this(idGaleria,null,imagenBanner,archivos,nombre,fechaDeCreacion, notas);
+    }
+
+
+    //Constructor auxiliar para galerias sin notas
+    public GaleriaDTO(
+            String idGaleria,
+            MultimediaDTO imagenPerfil,
+            Set<MultimediaDTO> archivos,
+            String nombre,
+            LocalDate fechaDeCreacion,
+            MultimediaDTO imagenBanner,
+            List<String> notas
+    ){
+        this(idGaleria,imagenPerfil, imagenBanner,archivos,nombre,fechaDeCreacion, notas);
     }
 
 

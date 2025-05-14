@@ -3,13 +3,9 @@ package com.nomEmpresa.nomProyecto.modelos;
 import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.MultimediaDTO;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -35,6 +31,15 @@ public class Galeria {
 
 
 
+    @ElementCollection
+    @CollectionTable(
+            name = "notas",
+            joinColumns = @JoinColumn(name = "galeria_id")
+    )
+    @Column(name = "texto")
+    private List<String> notas = new LinkedList<>();
+
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "imgPerfil_id")
@@ -58,7 +63,8 @@ public class Galeria {
                     idGaleria,
                     dtoArchivos,
                     nombre,
-                    fechaDeCreacion
+                    fechaDeCreacion,
+                    notas
             );
         if (imgBanner == null)
             return new GaleriaDTO(
@@ -66,7 +72,8 @@ public class Galeria {
                     imgPerfil.getDTO(),
                     dtoArchivos,
                     nombre,
-                    fechaDeCreacion
+                    fechaDeCreacion,
+                    notas
             );
         if (imgPerfil == null)
             return new GaleriaDTO(
@@ -74,15 +81,20 @@ public class Galeria {
                     dtoArchivos,
                     nombre,
                     fechaDeCreacion,
-                    imgBanner.getDTO()
+                    imgBanner.getDTO(),
+                    notas
             );
+        if(notas == null){
+
+        }
         return new GaleriaDTO(
                 idGaleria,
                 imgPerfil.getDTO(),
                 imgBanner.getDTO(),
                 dtoArchivos,
                 nombre,
-                fechaDeCreacion
+                fechaDeCreacion,
+                notas
         );
     }
 
@@ -184,5 +196,13 @@ public class Galeria {
 
     public void setImgBanner(Multimedia imgBanner) {
         this.imgBanner = imgBanner;
+    }
+
+    public List<String> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(List<String> notas) {
+        this.notas = notas;
     }
 }

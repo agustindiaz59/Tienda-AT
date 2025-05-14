@@ -148,5 +148,39 @@ public class MultimediaController {
         }
     }
 
+
+
+
+
+
+
+    @Operation(
+            summary = "Agrega una nota en una galeria",
+            description = "Agrega una nota en la galeria y se guarda en la BBDD",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Operacion exitosa"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Error en el ID o nota vacia"
+                    )
+            }
+    )
+    @PostMapping("/notas/upload/{idGaleria}")
+    @ResponseBody
+    public ResponseEntity<GaleriaDTO> subirNota(
+            @PathVariable("idGaleria") String idGaleria,
+            @RequestParam(value = "nota", required = false) String nota
+    ){
+        if(nota == null || nota.isEmpty() || nota.equals(" ")){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
+        return multimediaService.agregarNota(idGaleria, nota);
+    }
+
 }
 
