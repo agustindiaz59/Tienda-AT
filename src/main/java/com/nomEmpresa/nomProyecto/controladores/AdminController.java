@@ -72,10 +72,11 @@ public class AdminController {
     )
     @GetMapping("/galerias/listar")
     public ResponseEntity<List<GaleriaDTO>> listarGalerias(
-            @RequestParam(value = "archivos",required = false, defaultValue = "true") Boolean archivos
+            @RequestParam(value = "archivos",required = false, defaultValue = "false") Boolean archivos,
+            @RequestParam(value = "notas",required = false, defaultValue = "false") Boolean notas
     ){
 
-        return galeriaService.listarGalerias(archivos);
+        return galeriaService.listarGalerias(archivos, notas);
     }
 
 

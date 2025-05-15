@@ -39,13 +39,13 @@ public class GaleriaService {
      *
      * @return Listado de galerias
      */
-    public ResponseEntity<List<GaleriaDTO>> listarGalerias(Boolean archivos) {
+    public ResponseEntity<List<GaleriaDTO>> listarGalerias(Boolean archivos, Boolean notas) {
         List<GaleriaDTO> galeriasDTO;
 
-        if(!archivos){
+        if(!archivos || !notas){
             galeriasDTO = galeriaRepository.findAllWithDetails()
                     .stream()
-                    .map(g -> GaleriaMapper.galeriaDTO(g, false))
+                    .map(g -> GaleriaMapper.galeriaDTO(g, archivos, notas))
                     .toList();
         }else {
             galeriasDTO = galeriaRepository
