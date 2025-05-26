@@ -1,15 +1,23 @@
 package com.nomEmpresa.nomProyecto.modelos;
 
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.MultimediaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Entity
+@Getter
+@Setter
+@Component
 public class Galeria {
 
     //Atributos
@@ -22,7 +30,7 @@ public class Galeria {
 
 
     @Column
-    private LocalDate fechaDeCreacion;
+    private Instant fechaDeCreacion;
 
 
     //Relaciones
@@ -102,21 +110,21 @@ public class Galeria {
 
 
     public Galeria() {
-        this.fechaDeCreacion = LocalDate.now();
+        this.fechaDeCreacion = Instant.now();
     }
 
 
 
     public Galeria(String idGaleria) {
         this.idGaleria = idGaleria;
-        this.fechaDeCreacion = LocalDate.now();
+        this.fechaDeCreacion = Instant.now();
     }
 
 
     public Galeria(String idGaleria, String nombre) {
         this.idGaleria = idGaleria;
         this.nombre = nombre;
-        this.fechaDeCreacion = LocalDate.now();
+        this.fechaDeCreacion = Instant.now();
     }
 
 
@@ -146,63 +154,11 @@ public class Galeria {
 
 
 
-
-
-    public String getIdGaleria() {
-        return idGaleria;
-    }
-
-    public void setIdGaleria(String idGaleria) {
-        this.idGaleria = idGaleria;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public LocalDate getFechaDeCreacion() {
-        return fechaDeCreacion;
-    }
-
-    public void setFechaDeCreacion(LocalDate fechaDeCreacion) {
-        this.fechaDeCreacion = fechaDeCreacion;
-    }
-
-    public Set<Multimedia> getMultimedias() {
-        return multimedias;
-    }
-
     public void setMultimedias(Set<Multimedia> multimedias) {
         multimedias.remove(imgBanner);
         multimedias.remove(imgPerfil);
         this.multimedias = multimedias;
     }
 
-    public Multimedia getImgPerfil() {
-        return imgPerfil;
-    }
 
-    public void setImgPerfil(Multimedia imgPerfil) {
-        this.imgPerfil = imgPerfil;
-    }
-
-    public Multimedia getImgBanner() {
-        return imgBanner;
-    }
-
-    public void setImgBanner(Multimedia imgBanner) {
-        this.imgBanner = imgBanner;
-    }
-
-    public List<String> getNotas() {
-        return notas;
-    }
-
-    public void setNotas(List<String> notas) {
-        this.notas = notas;
-    }
 }

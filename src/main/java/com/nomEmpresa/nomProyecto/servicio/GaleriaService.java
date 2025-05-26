@@ -1,21 +1,24 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaPage;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
 import com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**
@@ -34,11 +37,13 @@ public class GaleriaService {
     private IMultimediaRepository iMultimediaRepository;
 
 
+
     /**
-     * Lista todas las galerias en el sistema
+     * Lista todas las galerias en el sistema, devuelve una lista de DTO
      *
      * @return Listado de galerias
      */
+    @Deprecated
     public ResponseEntity<List<GaleriaDTO>> listarGalerias(Boolean archivos, Boolean notas) {
         List<GaleriaDTO> galeriasDTO;
 
@@ -47,7 +52,7 @@ public class GaleriaService {
                     .stream()
                     .map(g -> GaleriaMapper.galeriaDTO(g, archivos, notas))
                     .toList();
-        }else {
+        }else { //Obtiene
             galeriasDTO = galeriaRepository
                 .findAllWithDetails()
                 .stream()
@@ -55,9 +60,48 @@ public class GaleriaService {
                 .toList();
         }
 
-
         return ResponseEntity.ofNullable(galeriasDTO);
     }
+
+
+
+
+
+
+
+    /**
+     * Lista todas las galerias en el sistema, devuelve una Pagina de Galerias
+     *
+     * @return Listado de galerias
+     */
+    public ResponseEntity<GaleriaPage> listarGalerias(
+            Boolean archivos,
+            Boolean notas,
+            Instant desde,
+            Pageable paginaSolicitada
+    ) {
+        GaleriaPage galeriasPage = new GaleriaPage();
+
+            Page<Galeria> aux = galeriaRepository.findByfechaDeCreacionAfter(desde,paginaSolicitada);
+            galeriasPage.setGalerias(aux
+                    .getContent()
+                    .stream()
+                    .map( g -> GaleriaMapper.galeriaDTO(g,archivos,notas))
+                    .toList()
+            );
+            galeriasPage.setPaginaActual(aux.getNumber());
+            galeriasPage.setTotalDePaginas(aux.getTotalPages());
+            galeriasPage.setTamaño(aux.getSize());
+            galeriasPage.setTotalDeElementos(aux.getTotalElements());
+
+
+        return ResponseEntity.ofNullable(galeriasPage);
+    }
+
+
+
+
+
 
 
 

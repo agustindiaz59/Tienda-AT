@@ -1,7 +1,7 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.MultimediaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import org.springframework.stereotype.Component;

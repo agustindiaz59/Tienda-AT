@@ -1,6 +1,7 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.DetallesGaleriaPage;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import com.nomEmpresa.nomProyecto.servicio.Validador;
@@ -8,10 +9,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 
 @Tag(
@@ -49,14 +58,24 @@ public class MultimediaController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Galeria no encontrada en el sistema"
+                            description = "Galeria no encontrada en el sistema, O error en la fecha, usar formato ISO-8601 UTC (YYYY-MM-DD'T'HH:mm:ss.SSX'Z')"
                     )
             }
     )
     @GetMapping("/galerias/{idGaleria}")
     @ResponseBody
-    public ResponseEntity<GaleriaDTO> listarMulti(@PathVariable("idGaleria") String idGaleria){
-        return multimediaService.listarMulti(idGaleria);
+    public ResponseEntity<DetallesGaleriaPage> listarMulti(
+            @PathVariable("idGaleria") String idGaleria,
+            @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00Z") Instant ultimaFecha,
+            @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
+            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina
+
+    ){
+
+        return multimediaService.listarMulti(
+                idGaleria,
+                ultimaFecha,
+                PageRequest.of(paginaSolicitada, elementosPorPagina));
     }
 
 

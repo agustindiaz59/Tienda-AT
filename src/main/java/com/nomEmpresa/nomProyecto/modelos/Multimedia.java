@@ -1,11 +1,14 @@
 package com.nomEmpresa.nomProyecto.modelos;
 
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.MultimediaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 @Getter
@@ -22,6 +25,9 @@ public class Multimedia {
     @Column
     private String src;
 
+    @Column
+    private Instant fechaModificado;
+
 
 
     //Realaciones
@@ -35,37 +41,17 @@ public class Multimedia {
 
 
     public Multimedia() {
+        ZoneId argentinaZone = ZoneId.of("America/Argentina/Buenos_Aires"); //Corrijo el UTC a UTC-3(zona horaria en argentina)
+        this.fechaModificado = LocalDateTime.now(argentinaZone).toInstant(ZoneOffset.UTC);
     }
 
 
     public MultimediaDTO getDTO(){
-        return new MultimediaDTO(src);
+        return new MultimediaDTO(src, fechaModificado);
     }
 
 
-    public String getSrc() {
-        return src;
-    }
 
-    public Galeria getIdGaleria() {
-        return idGaleria;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setSrc( String src) {
-        this.src = src;
-    }
-
-    public void setIdGaleria( Galeria idGaleria) {
-        this.idGaleria = idGaleria;
-    }
 
     @Override
     public boolean equals(Object o) {

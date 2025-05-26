@@ -1,26 +1,21 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
-import com.nomEmpresa.nomProyecto.dto.AdministradorDTO;
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaMultipartDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaPage;
 import com.nomEmpresa.nomProyecto.servicio.AdministradorService;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
-import com.nomEmpresa.nomProyecto.servicio.Validador;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.time.Instant;
 
 @RestController
 @RequestMapping("/admin")
@@ -71,12 +66,22 @@ public class AdminController {
             }
     )
     @GetMapping("/galerias/listar")
-    public ResponseEntity<List<GaleriaDTO>> listarGalerias(
+    public ResponseEntity<GaleriaPage> listarGalerias(
             @RequestParam(value = "archivos",required = false, defaultValue = "false") Boolean archivos,
-            @RequestParam(value = "notas",required = false, defaultValue = "false") Boolean notas
-    ){
+            @RequestParam(value = "notas",required = false, defaultValue = "false") Boolean notas,
+            //@RequestParam(required = false) Pageable pagina,
+            @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00.000Z") Instant ultimaFecha,
+            @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
+            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina
+            ){
 
-        return galeriaService.listarGalerias(archivos, notas);
+
+        return galeriaService.listarGalerias(
+                archivos,
+                notas,
+                ultimaFecha,
+                PageRequest.of(paginaSolicitada, elementosPorPagina)
+        );
     }
 
 

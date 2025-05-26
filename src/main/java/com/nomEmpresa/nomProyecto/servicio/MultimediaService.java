@@ -1,12 +1,18 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import com.nomEmpresa.nomProyecto.dto.wasabi.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.DetallesGaleriaPage;
+import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
+import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
+import com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,16 +29,20 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MultimediaService {
 
     @Autowired
     private IGaleriaRepository galeriaRepository;
+
+    @Autowired
+    private IMultimediaRepository multimediaRepository;
 
     @Autowired
     private BucketService bucketService;
@@ -69,14 +79,32 @@ public class MultimediaService {
      * @param idGaleria Id de la galeria en cuestión
      * @return Galeria con archivos e información colateral
      */
-    public ResponseEntity<GaleriaDTO> listarMulti(String idGaleria) {
-        Optional<Galeria> galeria = galeriaRepository.findById(idGaleria);
+    public ResponseEntity<DetallesGaleriaPage> listarMulti(
+            String idGaleria,
+            Instant desde,
+            Pageable paginaSolicitada
+    ) {
 
+        //Verifico que la galeria exista
+        Optional<Galeria> galeria = galeriaRepository.findById(idGaleria);
         if(galeria.isEmpty()){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ofNullable(galeria.get().getDTO());
+        //Traigo las fotos relacionadas a la galeria
+        Page<Multimedia> paginaMulti = multimediaRepository
+                .findByIdGaleriaAndFechaModificadoAfter(
+                        new Galeria(
+                                galeria.get().getIdGaleria(),
+                                galeria.get().getNombre()
+                        ),
+                        desde,
+                        paginaSolicitada
+                );
+
+        //Armo la respuesta
+        DetallesGaleriaPage respuesta = new DetallesGaleriaPage(galeria.get(), paginaMulti);
+        return ResponseEntity.ofNullable(respuesta);
     }
 
 
