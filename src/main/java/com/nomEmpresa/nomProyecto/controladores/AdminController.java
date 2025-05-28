@@ -17,28 +17,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 
-@RestController
-@RequestMapping("/admin")
 @Tag(
         name = "Controlador de dministrador",
         description = "Acciones restringidas solo para el administrador logeado con usuario y contraseña"
 )
-
+@RestController
+@RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
     private GaleriaService galeriaService;
 
-    @Autowired
     private MultimediaService multimediaService;
 
-    @Autowired
     private AdministradorService administradorService;
 
 
 
 
-
+    @Autowired
+    public AdminController(GaleriaService galeriaService, MultimediaService multimediaService, AdministradorService administradorService) {
+        this.galeriaService = galeriaService;
+        this.multimediaService = multimediaService;
+        this.administradorService = administradorService;
+    }
 
 
 

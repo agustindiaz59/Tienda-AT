@@ -28,13 +28,32 @@ import java.util.Optional;
 @Service
 public class GaleriaService {
 
-    @Autowired
+
     private IGaleriaRepository galeriaRepository;
 
-    @Autowired
     private BucketService bucketService;
-    @Autowired
+
     private IMultimediaRepository iMultimediaRepository;
+
+
+
+
+
+
+
+    @Autowired
+    public GaleriaService(IGaleriaRepository galeriaRepository, BucketService bucketService, IMultimediaRepository iMultimediaRepository) {
+        this.galeriaRepository = galeriaRepository;
+        this.bucketService = bucketService;
+        this.iMultimediaRepository = iMultimediaRepository;
+    }
+
+
+
+
+
+
+
 
 
 

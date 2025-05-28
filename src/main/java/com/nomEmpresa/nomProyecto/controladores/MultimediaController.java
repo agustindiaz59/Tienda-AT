@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 
 
 @Tag(
@@ -31,12 +26,20 @@ import java.time.temporal.ChronoUnit;
 @RequestMapping("/multi")
 public class MultimediaController {
 
-    @Autowired
+
     private GaleriaService galeriaService;
 
+    private MultimediaService multimediaService;
+
+
+
+
 
     @Autowired
-    private MultimediaService multimediaService;
+    public MultimediaController(GaleriaService galeriaService, MultimediaService multimediaService) {
+        this.galeriaService = galeriaService;
+        this.multimediaService = multimediaService;
+    }
 
 
 
@@ -121,7 +124,14 @@ public class MultimediaController {
         }else {
             return ResponseEntity
                     .badRequest()
-                    .body("-- Formato de imagenes incorrecto, utilizar jpg, jpeg, png o heic");
+                    .body(
+                            """
+                            -- Error de solicitud, posibles errores:
+                            -- Formato de imagenes incorrecto, utilizar jpg, jpeg, png o heic
+                            -- Nombre de archivo invalido, utilizar SOLO letras mayusculas o minusculas, numeros, o estos simbolos .-_/()
+                            -- No utilizar expresiones de cambio de directorio ../ ni ..
+                            """
+                    );
         }
     }
 

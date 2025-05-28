@@ -173,7 +173,7 @@ public class BucketService {
     /**
      * Elimina un archivo multimedia a través de su URL de Wasabi
      *
-     * @param urlMultimedia Url del archivo en cuestión
+     * @param urlMultimedia Url del archivo en cuestión idGaleria + subcarpetas + nombreArchivo
      * @return Confirmacion y estado de la solicitud
      */
     public ResponseEntity<String> deleteMulti(String urlMultimedia) {

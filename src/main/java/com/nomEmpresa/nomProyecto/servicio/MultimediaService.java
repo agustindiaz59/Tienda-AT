@@ -38,14 +38,34 @@ import java.util.stream.Collectors;
 @Service
 public class MultimediaService {
 
-    @Autowired
+
     private IGaleriaRepository galeriaRepository;
 
-    @Autowired
     private IMultimediaRepository multimediaRepository;
 
-    @Autowired
     private BucketService bucketService;
+
+
+
+
+
+
+
+    @Autowired
+    public MultimediaService(IGaleriaRepository galeriaRepository, IMultimediaRepository multimediaRepository, BucketService bucketService) {
+        this.galeriaRepository = galeriaRepository;
+        this.multimediaRepository = multimediaRepository;
+        this.bucketService = bucketService;
+    }
+
+
+
+
+
+
+
+
+
 
 
     /**

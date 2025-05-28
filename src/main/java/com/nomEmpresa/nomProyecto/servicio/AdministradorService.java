@@ -16,11 +16,20 @@ import java.util.Optional;
 @Service
 public class AdministradorService {
 
-    @Autowired
+
     private IAdministradorRepository administradorRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+
+
+
+    @Autowired
+    public AdministradorService(IAdministradorRepository administradorRepository, PasswordEncoder passwordEncoder) {
+        this.administradorRepository = administradorRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
 

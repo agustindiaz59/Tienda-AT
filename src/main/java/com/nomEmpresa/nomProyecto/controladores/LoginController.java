@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
 
-    @Autowired
     private AdministradorService administradorService;
+
+
+    public LoginController(AdministradorService administradorService) {
+        this.administradorService = administradorService;
+    }
+
 
 
     /**
