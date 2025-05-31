@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -176,9 +177,15 @@ public class BucketService {
      * @param urlMultimedia Url del archivo en cuestión idGaleria + subcarpetas + nombreArchivo
      * @return Confirmacion y estado de la solicitud
      */
+    @Transactional
     public ResponseEntity<String> deleteMulti(String urlMultimedia) {
         try {
+
+            //Eliminar foto de wasabi
             s3.deleteObject(nombreBucket, urlMultimedia);
+            //Eliminar multimedia de la base de datos
+            multimediaRepository.deleteBySrc(urlMultimedia);
+
             return ResponseEntity.noContent().build();
         } catch (SdkClientException e) {
             System.out.println("--Error eliminando el archivo");

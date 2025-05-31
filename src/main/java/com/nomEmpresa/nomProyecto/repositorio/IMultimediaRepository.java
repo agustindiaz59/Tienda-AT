@@ -20,4 +20,6 @@ public interface IMultimediaRepository extends JpaRepository<Multimedia, Long> {
             Instant fechaModificado,
             Pageable pageable
     );
+
+    void deleteBySrc(String urlMultimedia);
 }
