@@ -13,10 +13,7 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -254,5 +252,41 @@ public class MultimediaService {
 
         return ResponseEntity
                 .ok(editado.getDTO());
+    }
+
+    public ResponseEntity<String> deleteNota(String idGaleria, String contenidoNota) {
+
+        //Verifico que la galeria exista
+        Optional<Galeria> galeria = galeriaRepository.findById(idGaleria);
+
+        if (galeria.isEmpty()){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("-- Galeria con id: " + idGaleria + " no existente en el sistema");
+        }
+
+        //Obtengo todas las notas de esa galeria
+        List<String> notas = galeria.get().getNotas();
+
+        //Verifico que la nota exista en la galeria
+        if(notas.contains(contenidoNota)){
+
+            //Elimino la nota de la galeria
+            notas.remove(contenidoNota);
+
+            //Guardo los cambios en la galeria
+            galeriaRepository.save(galeria.get());
+
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body("-- Nota eliminada correctamente de la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+        }else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("-- Nota no existente en la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+        }
+
+
+
     }
 }

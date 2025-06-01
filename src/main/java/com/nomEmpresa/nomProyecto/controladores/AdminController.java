@@ -170,6 +170,39 @@ public class AdminController {
 
 
 
+    @Operation(
+            summary = "Elimina una nota de una galeria",
+            description = "Elimina la nota de la galeria mediante su contenido y el id de la galeria que lo contiene",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Galeria no encontrada en el sistema"
+                    ),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Nota eliminada exitosamente"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Nota no existente en el sistema"
+                    )
+            }
+
+    )
+    @DeleteMapping("/nota/delete")
+    public ResponseEntity<String> deleteNota(
+            @RequestParam("idGaleria") String idGaleria,
+            @RequestParam("contenidoNota") String contenidoNota
+    ){
+        return multimediaService.deleteNota(idGaleria, contenidoNota);
+    }
+
+
+
+
+
+
+
     /**
      * Elimina un archivo de Wasabi y de la Base de Datos
      *
