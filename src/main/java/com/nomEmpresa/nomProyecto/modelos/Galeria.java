@@ -4,12 +4,10 @@ import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -92,9 +90,6 @@ public class Galeria {
                     imgBanner.getDTO(),
                     notas
             );
-        if(notas == null){
-
-        }
         return new GaleriaDTO(
                 idGaleria,
                 imgPerfil.getDTO(),
@@ -132,7 +127,7 @@ public class Galeria {
     @PrePersist
     public void generarId() {
         if (idGaleria == null) {
-            idGaleria = "AT-" + UUID.randomUUID().toString().substring(0,8);
+            idGaleria = "AT-" + UUID.randomUUID().toString().substring(0,5).toUpperCase(Locale.ENGLISH);
         }
     }
 
