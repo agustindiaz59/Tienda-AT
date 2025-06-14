@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class WasabiResponse {
 
     @JsonProperty("objectSummaries")

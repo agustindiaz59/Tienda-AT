@@ -1,7 +1,5 @@
 package com.nomEmpresa.nomProyecto.modelos;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -37,14 +34,6 @@ public class Galeria {
 
 
 
-    @ElementCollection
-    @CollectionTable(
-            name = "notas",
-            joinColumns = @JoinColumn(name = "galeria_id")
-    )
-    @Column(name = "texto")
-    private List<String> notas = new LinkedList<>();
-
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -56,50 +45,53 @@ public class Galeria {
     @JoinColumn(name = "img_banner_id")
     private Multimedia imgBanner;
 
+    @OneToMany(mappedBy = "galeria", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Nota> notas = new ArrayList<>();
 
-    @Transient
-    public GaleriaDTO getDTO(){
-        Set<MultimediaDTO> dtoArchivos = multimedias
-                .stream()
-                .map(Multimedia::getDTO)
-                .collect(Collectors.toSet());
-
-        if (imgPerfil == null && imgBanner == null)
-            return new GaleriaDTO(
-                    idGaleria,
-                    dtoArchivos,
-                    nombre,
-                    fechaDeCreacion,
-                    notas
-            );
-        if (imgBanner == null)
-            return new GaleriaDTO(
-                    idGaleria,
-                    imgPerfil.getDTO(),
-                    dtoArchivos,
-                    nombre,
-                    fechaDeCreacion,
-                    notas
-            );
-        if (imgPerfil == null)
-            return new GaleriaDTO(
-                    idGaleria,
-                    dtoArchivos,
-                    nombre,
-                    fechaDeCreacion,
-                    imgBanner.getDTO(),
-                    notas
-            );
-        return new GaleriaDTO(
-                idGaleria,
-                imgPerfil.getDTO(),
-                imgBanner.getDTO(),
-                dtoArchivos,
-                nombre,
-                fechaDeCreacion,
-                notas
-        );
-    }
+//    @Transient
+//    @Deprecated
+//    public GaleriaDTO getDTO(){
+//        Set<MultimediaDTO> dtoArchivos = multimedias
+//                .stream()
+//                .map(Multimedia::getDTO)
+//                .collect(Collectors.toSet());
+//
+//        if (imgPerfil == null && imgBanner == null)
+//            return new GaleriaDTO(
+//                    idGaleria,
+//                    dtoArchivos,
+//                    nombre,
+//                    fechaDeCreacion,
+//                    GaleriaMapper.notasDTO(notas)
+//            );
+//        if (imgBanner == null)
+//            return new GaleriaDTO(
+//                    idGaleria,
+//                    imgPerfil.getDTO(),
+//                    dtoArchivos,
+//                    nombre,
+//                    fechaDeCreacion,
+//                    GaleriaMapper.notasDTO(notas)
+//            );
+//        if (imgPerfil == null)
+//            return new GaleriaDTO(
+//                    idGaleria,
+//                    dtoArchivos,
+//                    nombre,
+//                    fechaDeCreacion,
+//                    imgBanner.getDTO(),
+//                    GaleriaMapper.notasDTO(notas)
+//            );
+//        return new GaleriaDTO(
+//                idGaleria,
+//                imgPerfil.getDTO(),
+//                imgBanner.getDTO(),
+//                dtoArchivos,
+//                nombre,
+//                fechaDeCreacion,
+//                GaleriaMapper.notasDTO(notas)
+//        );
+//    }
 
 
 

@@ -3,6 +3,7 @@ package com.nomEmpresa.nomProyecto.servicio;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +11,6 @@ import java.util.regex.Pattern;
 /**
  * Clase encargada de validaciones, abierta a cambios
  */
-@Component
 public abstract class Validador {
 
 
@@ -39,7 +39,7 @@ public abstract class Validador {
 
         //Condiciones para poder continuar
         if(archivo == null) return false;
-        if(archivo.getOriginalFilename().isBlank()) return false;
+        if(Objects.requireNonNull(archivo.getOriginalFilename()).isBlank()) return false;
         if(archivo.getOriginalFilename().isEmpty()) return false;
         if(archivo.getOriginalFilename().contains("..")) return false;
 

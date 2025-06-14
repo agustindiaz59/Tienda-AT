@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,6 +76,18 @@ public class AdminController {
             @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
             @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina
             ){
+
+        if(elementosPorPagina < 1){
+            return ResponseEntity
+                    .status(HttpStatusCode.valueOf(400))
+                    .build();
+        }
+
+        if(paginaSolicitada < 0){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
 
 
         return galeriaService.listarGalerias(

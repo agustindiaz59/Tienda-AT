@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class GaleriaPage{
 
     private List<GaleriaDTO> galerias;

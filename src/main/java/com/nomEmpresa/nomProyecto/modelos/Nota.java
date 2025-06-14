@@ -1,0 +1,51 @@
+package com.nomEmpresa.nomProyecto.modelos;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.Instant;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = "notas")
+@Getter
+@Setter
+@NoArgsConstructor
+public class Nota {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column
+    private String contenido;
+
+    @Column
+    private Instant hora;
+
+    @ManyToOne
+    @JoinColumn(name = "galeria_id")
+    private Galeria galeria;
+
+
+    public Nota(String contenido, Instant hora) {
+        this.hora = hora;
+        this.contenido = contenido;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Nota nota = (Nota) o;
+        return Objects.equals(contenido, nota.contenido) && Objects.equals(hora, nota.hora);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contenido, hora);
+    }
+}

@@ -1,10 +1,11 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.DetallesGaleriaPage;
+import com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
+import com.nomEmpresa.nomProyecto.dto.respuestas.MultimediaPage;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
+import com.nomEmpresa.nomProyecto.modelos.Nota;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
 import com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,17 +32,16 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class MultimediaService {
 
 
-    private IGaleriaRepository galeriaRepository;
+    private final IGaleriaRepository galeriaRepository;
 
-    private IMultimediaRepository multimediaRepository;
+    private final IMultimediaRepository multimediaRepository;
 
-    private BucketService bucketService;
+    private final BucketService bucketService;
 
 
 
@@ -232,7 +232,6 @@ public class MultimediaService {
      * @param nota
      * @return
      */
-    @Transactional
     public ResponseEntity<GaleriaDTO> agregarNota(String idGaleria, String nota) {
         Optional<Galeria> galeria = galeriaRepository.findById(idGaleria);
 
@@ -245,13 +244,15 @@ public class MultimediaService {
 
         //Agrego la nota
         Galeria editado = galeria.get();
-        editado.getNotas().add(nota);
+        Nota nuevaNota = new Nota(nota, Instant.now());
+        nuevaNota.setGaleria(editado);
+        editado.getNotas().add(nuevaNota);
 
         //Guardo en la BBDD
         galeriaRepository.save(editado);
 
         return ResponseEntity
-                .ok(editado.getDTO());
+                .ok(DTOMapper.galeriaDTO(editado,true,true));
     }
 
     public ResponseEntity<String> deleteNota(String idGaleria, String contenidoNota) {
@@ -266,7 +267,7 @@ public class MultimediaService {
         }
 
         //Obtengo todas las notas de esa galeria
-        List<String> notas = galeria.get().getNotas();
+        List<Nota> notas = galeria.get().getNotas();
 
         //Verifico que la nota exista en la galeria
         if(notas.contains(contenidoNota)){

@@ -1,8 +1,10 @@
 package com.nomEmpresa.nomProyecto.configuration.security;
 
+import com.nomEmpresa.nomProyecto.configuration.CacheName;
 import com.nomEmpresa.nomProyecto.modelos.Administrador;
 import com.nomEmpresa.nomProyecto.repositorio.IAdministradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +20,8 @@ public class Autenticacion implements UserDetailsService {
     private IAdministradorRepository administradorRepository;
 
 
-
     @Override
+    @Cacheable(value = "ADMINISTRADOR")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //Busca el registro del administrador por su nombre

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class BucketObject {
 
     @JsonProperty("bucketName")

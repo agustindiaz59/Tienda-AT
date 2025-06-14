@@ -60,7 +60,7 @@ class MultimediaControllerTest {
         galeria2.setIdGaleria("AT-GAL002");
         galeria2.setNombre("Galería con notas");
         galeria2.setFechaDeCreacion(Instant.now().minus(5, ChronoUnit.DAYS));
-        galeria2.setNotas(List.of("Nota 1", "Nota 2", "Nota 3"));
+        //galeria2.setNotas(List.of("Nota 1", "Nota 2", "Nota 3")); TODO cambiar tipos String > Nota
 
         //Instancia 3: Galería con multimedia asociada (OneToMany) y banner
         Multimedia media1 = new Multimedia();
@@ -122,7 +122,7 @@ class MultimediaControllerTest {
 
 
         //Inyeccion de dependencias configuradas
-        galeriaService = new GaleriaService(galeriaRepository, bucketService, iMultimediaRepository);
+        galeriaService = new GaleriaService(galeriaRepository, bucketService);
         multimediaService = new MultimediaService(galeriaRepository, iMultimediaRepository, bucketService);
         multimediaController = new MultimediaController(galeriaService, multimediaService);
     }

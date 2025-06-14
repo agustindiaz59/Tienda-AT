@@ -61,7 +61,6 @@ class AdminControllerTest {
         galeria2.setIdGaleria("AT-GAL002");
         galeria2.setNombre("Galería con notas");
         galeria2.setFechaDeCreacion(Instant.now().minus(5, ChronoUnit.DAYS));
-        galeria2.setNotas(List.of("Nota 1", "Nota 2", "Nota 3"));
 
         //Instancia 3: Galería con multimedia asociada (OneToMany) y banner
         Multimedia media1 = new Multimedia();

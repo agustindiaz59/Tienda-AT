@@ -46,6 +46,7 @@ public class Multimedia {
     }
 
 
+    @Transient
     public MultimediaDTO getDTO(){
         return new MultimediaDTO(src, fechaModificado);
     }

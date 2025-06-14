@@ -1,6 +1,6 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.DetallesGaleriaPage;
+import com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;

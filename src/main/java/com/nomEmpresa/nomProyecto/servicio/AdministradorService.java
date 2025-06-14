@@ -5,6 +5,8 @@ import com.nomEmpresa.nomProyecto.modelos.Administrador;
 import com.nomEmpresa.nomProyecto.repositorio.IAdministradorRepository;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,10 @@ import java.util.Optional;
 public class AdministradorService {
 
 
-    private IAdministradorRepository administradorRepository;
+    private final IAdministradorRepository administradorRepository;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
 
 
 
@@ -40,6 +43,7 @@ public class AdministradorService {
 
 
     @Transactional
+    @CachePut("ADMINISTRADOR")
     public ResponseEntity<AdministradorDTO> cambiarContraseniaAdmin(
         AdministradorDTO dto
     ){
@@ -57,6 +61,7 @@ public class AdministradorService {
         return crearAdmin(dto);
     }
 
+    @CacheEvict("ADMINISTRADOR")
     public ResponseEntity<AdministradorDTO> crearAdmin(AdministradorDTO dto) {
 
         // Sobreescribo o creo el administrador con el mismo nombre
@@ -66,6 +71,8 @@ public class AdministradorService {
                 .ok(dto);
     }
 
+
+    @CacheEvict("ADMINISTRADOR")
     public ResponseEntity<AdministradorDTO> eliminarAdministrador(String nombreUsuario) {
 
         if(!administradorRepository.existsByNombre(nombreUsuario)){

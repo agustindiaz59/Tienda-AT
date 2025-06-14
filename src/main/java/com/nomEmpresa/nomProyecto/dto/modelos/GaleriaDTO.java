@@ -1,6 +1,7 @@
 package com.nomEmpresa.nomProyecto.dto.modelos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nomEmpresa.nomProyecto.modelos.Nota;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,7 +16,7 @@ public record GaleriaDTO(
         Set<MultimediaDTO> archivos,
         String nombre,
         Instant fechaDeCreacion,
-        List<String> notas
+        List<NotaDTO> notas
 ) {
 
 
@@ -26,7 +27,7 @@ public record GaleriaDTO(
             Set<MultimediaDTO> archivos,
             String nombre,
             Instant fechaDeCreacion,
-            List<String> notas
+            List<NotaDTO> notas
     ){
         this(idGaleria,null,null,archivos,nombre,fechaDeCreacion, notas);
     }
@@ -40,7 +41,7 @@ public record GaleriaDTO(
             Set<MultimediaDTO> archivos,
             String nombre,
             Instant fechaDeCreacion,
-            List<String> notas
+            List<NotaDTO> notas
     ){
         this(idGaleria,imagenPerfil,null,archivos,nombre,fechaDeCreacion,notas);
     }
@@ -55,7 +56,7 @@ public record GaleriaDTO(
             String nombre,
             Instant fechaDeCreacion,
             MultimediaDTO imagenBanner,
-            List<String> notas
+            List<NotaDTO> notas
     ){
         this(idGaleria,null,imagenBanner,archivos,nombre,fechaDeCreacion, notas);
     }
@@ -69,7 +70,7 @@ public record GaleriaDTO(
             String nombre,
             Instant fechaDeCreacion,
             MultimediaDTO imagenBanner,
-            List<String> notas
+            List<NotaDTO> notas
     ){
         this(idGaleria,imagenPerfil, imagenBanner,archivos,nombre,fechaDeCreacion, notas);
     }

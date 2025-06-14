@@ -5,7 +5,6 @@ import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaPage;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
-import com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,11 +28,9 @@ import java.util.Optional;
 public class GaleriaService {
 
 
-    private IGaleriaRepository galeriaRepository;
+    private final IGaleriaRepository galeriaRepository;
 
-    private BucketService bucketService;
-
-    private IMultimediaRepository iMultimediaRepository;
+    private final BucketService bucketService;
 
 
 
@@ -42,10 +39,9 @@ public class GaleriaService {
 
 
     @Autowired
-    public GaleriaService(IGaleriaRepository galeriaRepository, BucketService bucketService, IMultimediaRepository iMultimediaRepository) {
+    public GaleriaService(IGaleriaRepository galeriaRepository, BucketService bucketService) {
         this.galeriaRepository = galeriaRepository;
         this.bucketService = bucketService;
-        this.iMultimediaRepository = iMultimediaRepository;
     }
 
 
@@ -66,18 +62,11 @@ public class GaleriaService {
     public ResponseEntity<List<GaleriaDTO>> listarGalerias(Boolean archivos, Boolean notas) {
         List<GaleriaDTO> galeriasDTO;
 
-        if(!archivos || !notas){
-            galeriasDTO = galeriaRepository.findAllWithDetails()
+        //Obtiene todas las galerias con las condiciones
+        galeriasDTO = galeriaRepository.findAllWithDetails()
                     .stream()
-                    .map(g -> GaleriaMapper.galeriaDTO(g, archivos, notas))
+                    .map(g -> DTOMapper.galeriaDTO(g, archivos, notas))
                     .toList();
-        }else { //Obtiene
-            galeriasDTO = galeriaRepository
-                .findAllWithDetails()
-                .stream()
-                .map(Galeria::getDTO)
-                .toList();
-        }
 
         return ResponseEntity.ofNullable(galeriasDTO);
     }
@@ -105,7 +94,7 @@ public class GaleriaService {
             galeriasPage.setGalerias(aux
                     .getContent()
                     .stream()
-                    .map( g -> GaleriaMapper.galeriaDTO(g,archivos,notas))
+                    .map( g -> DTOMapper.galeriaDTO(g,archivos,notas))
                     .toList()
             );
             galeriasPage.setPaginaActual(aux.getNumber());
@@ -131,11 +120,12 @@ public class GaleriaService {
      *
      * @return Listado de galerias
      */
+    @Deprecated(since = "10/06/2025")
     public ResponseEntity<List<GaleriaDTO>> listarGaleriasSinArchivos() {
         List<GaleriaDTO> galeriasDTO = galeriaRepository
                 .findAllWithDetails()
                 .stream()
-                .map(Galeria::getDTO)
+                .map(galeria -> DTOMapper.galeriaDTO(galeria,false,false))
                 .toList();
 
         return ResponseEntity.ofNullable(galeriasDTO);
@@ -249,7 +239,7 @@ public class GaleriaService {
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(nuevo.getDTO());
+                    .body(DTOMapper.galeriaDTO(nuevo,true,true)); //TODO Verificar repercuciones en el metodo
         }
 
         return ResponseEntity.internalServerError().build();
@@ -361,10 +351,10 @@ public class GaleriaService {
         Optional<Galeria> nueva = Optional.of(galeriaRepository.save(aux));
 
         if(nueva.isPresent()){
-            return ResponseEntity.ok(nueva.get().getDTO());
+            return ResponseEntity.ok(DTOMapper.galeriaDTO(nueva.get(),true,true));
         }
 
-        return ResponseEntity.internalServerError().body(nueva.get().getDTO());
+        return ResponseEntity.internalServerError().body(DTOMapper.galeriaDTO(nueva.get(),true,true));
     }
 
 
