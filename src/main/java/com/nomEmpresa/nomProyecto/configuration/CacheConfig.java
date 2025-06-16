@@ -1,5 +1,6 @@
 package com.nomEmpresa.nomProyecto.configuration;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -19,7 +20,8 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager(){
         Set<CaffeineCache> caches = new HashSet<>();
-        caches.add(cacheBuild(CacheName.ADMINISTRADOR.name(),1L, TimeUnit.DAYS));
+        caches.add(cacheBuild("ADMINISTRADOR",1L, TimeUnit.DAYS));
+        caches.add(cacheBuild(CacheName.INTENTOS_USUARIO.name(), 1L,TimeUnit.HOURS));
 
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(caches);
@@ -36,6 +38,7 @@ public class CacheConfig {
                         .build()
         );
     }
+
 
 
 }

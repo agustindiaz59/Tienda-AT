@@ -1,7 +1,7 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaPage;
+import com.nomEmpresa.nomProyecto.dto.respuestas.GaleriaPage;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;

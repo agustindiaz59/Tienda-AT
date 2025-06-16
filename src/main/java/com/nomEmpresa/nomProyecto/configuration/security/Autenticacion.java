@@ -1,6 +1,5 @@
 package com.nomEmpresa.nomProyecto.configuration.security;
 
-import com.nomEmpresa.nomProyecto.configuration.CacheName;
 import com.nomEmpresa.nomProyecto.modelos.Administrador;
 import com.nomEmpresa.nomProyecto.repositorio.IAdministradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

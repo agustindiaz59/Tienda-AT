@@ -1,15 +1,10 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaPage;
+import com.nomEmpresa.nomProyecto.dto.respuestas.GaleriaPage;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
 import com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository;
-import com.nomEmpresa.nomProyecto.servicio.AdministradorService;
-import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
-import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
-import org.apache.commons.lang3.NotImplementedException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

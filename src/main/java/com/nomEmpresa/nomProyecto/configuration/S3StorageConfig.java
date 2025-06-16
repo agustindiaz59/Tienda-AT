@@ -38,4 +38,11 @@ public class S3StorageConfig {
                 .build();
     }
 
+//    @Bean
+//    public AmazonDynamoDBClientBuilder amazonDynamoDBClientBuilder(){
+//        AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
+//        AmazonS
+//    }
+
+
 }

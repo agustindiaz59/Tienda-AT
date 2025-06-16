@@ -1,5 +1,6 @@
 package com.nomEmpresa.nomProyecto.configuration;
 
+import com.zaxxer.hikari.HikariDataSource;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -29,29 +30,20 @@ public class JpaConfig {
     @Value("${datasource.password}")
     private String contrasenia;
 
+    @Value("${datasource.maxPoolSize}")
+    private Integer maxPoolSize;
+
     @Bean
     public DataSource dataSource(){
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl(url);
+        HikariDataSource ds = new HikariDataSource(); //Recomendado por spring boot
+        ds.setJdbcUrl(url);
         ds.setDriverClassName(driver);
         ds.setUsername(usuario);
         ds.setPassword(contrasenia);
+        ds.setMaximumPoolSize(maxPoolSize);
 
         return ds;
-
-//        return DataSourceBuilder
-//                .create()
-//                .driverClassName(driver)
-//                .username(usuario)
-//                .password(contrasenia)
-//                .url(url)
-//                .build();
     }
 
-
-    @Bean
-    public Validator validator() {
-        return new LocalValidatorFactoryBean();
-    }
 
 }

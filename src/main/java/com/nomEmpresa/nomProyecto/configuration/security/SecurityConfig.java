@@ -31,6 +31,7 @@ public class SecurityConfig {
         return filters
                 .authorizeHttpRequests( (request) -> request
                         .requestMatchers("/multi/**").permitAll()
+                        .requestMatchers("/login/verificar").permitAll()
                         //.requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().hasRole("ADMIN")
                 )

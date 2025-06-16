@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Component
+@Builder
 public class DetallesGaleriaPage {
 
     private String idGaleria;
@@ -50,6 +51,7 @@ public class DetallesGaleriaPage {
     ){
 
         GaleriaDTO galeriaDTO = DTOMapper.galeriaDTO(galeria,true, true);
+
 
         //Campos de galeria
         this.setIdGaleria(galeriaDTO.idGaleria());

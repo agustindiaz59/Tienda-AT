@@ -50,12 +50,20 @@ public class LoginController {
     @PutMapping("/modificar/contrasenia")
     public ResponseEntity<AdministradorDTO> modificarAdmin(
             @RequestBody
-            @Validated
             AdministradorDTO dto
     ){
         return administradorService.cambiarContraseniaAdmin(dto);
     }
 
+
+
+    @PostMapping("/verificar")
+    public ResponseEntity<AdministradorDTO> verificar(
+            @RequestBody
+            AdministradorDTO dto
+    ){
+        return administradorService.verificarUsuario(dto);
+    }
 
 
 

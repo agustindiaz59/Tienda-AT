@@ -1,6 +1,7 @@
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\CacheConfig.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\CacheName.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\JpaConfig.java
+C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\OpenApiConfig.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\S3StorageConfig.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\Autenticacion.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\SecurityConfig.java
@@ -9,15 +10,16 @@ C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\n
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\MultimediaController.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\AdministradorDTO.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\GaleriaDTO.java
-C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\GaleriaPage.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\MultimediaDTO.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\NotaDTO.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\DetallesGaleriaPage.java
+C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\GaleriaPage.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\MultimediaPage.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\NotasPage.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\PaginaPersonalizada.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\wasabi\BucketObject.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\wasabi\WasabiResponse.java
+C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\errores\ControllerAdvice.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Administrador.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Galeria.java
 C:\Users\Matias\Documents\nomProyecto\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Multimedia.java
