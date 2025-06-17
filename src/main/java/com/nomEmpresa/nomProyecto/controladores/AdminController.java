@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.Instant;
 
 @Tag(
-        name = "Controlador de dministrador",
+        name = "Controlador de administrador",
         description = "Acciones restringidas solo para el administrador logeado con usuario y contraseña"
 )
 @RestController

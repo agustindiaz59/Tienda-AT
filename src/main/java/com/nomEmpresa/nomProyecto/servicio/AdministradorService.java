@@ -101,30 +101,10 @@ public class AdministradorService {
         return administradorRepository.findByNombre(nombre).orElse(null);
     }
 
-
-
-    public ResponseEntity<AdministradorDTO> verificarUsuario(AdministradorDTO dto) {
-        Optional<Administrador> administrador = Optional.of(consultarAdministrador(dto.nombre()));
-
-        //No existe en la base de datos
-        if(administrador.isEmpty()){
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(dto);
-        }
-
-
-        boolean existe = passwordEncoder.matches(dto.contrasenia(),administrador.get().getPassword());
-
-        if (existe){
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(dto);
-        }else{
-            //No coincide la contraseña
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(dto);
-        }
+    @Cacheable(value = "CONTRASENIAS")
+    public boolean compararContrasenias(String raw, String encoded){
+        return passwordEncoder.matches(raw,encoded);
     }
+
+
 }

@@ -22,6 +22,7 @@ public class CacheConfig {
         Set<CaffeineCache> caches = new HashSet<>();
         caches.add(cacheBuild("ADMINISTRADOR",1L, TimeUnit.DAYS));
         caches.add(cacheBuild(CacheName.INTENTOS_USUARIO.name(), 1L,TimeUnit.HOURS));
+        caches.add(cacheBuild("CONTRASENIAS", 1L,TimeUnit.HOURS));
 
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(caches);
