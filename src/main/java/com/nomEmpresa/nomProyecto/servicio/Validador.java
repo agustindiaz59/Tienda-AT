@@ -19,6 +19,7 @@ public abstract class Validador {
      */
     private static Set<String> formatosPermitidos = Set.of(
             "image/heic",
+            "image/heif",
             "image/png",
             "image/jpeg",
             "image/jpg"

@@ -170,6 +170,11 @@ public class MultimediaController {
             @RequestParam(value = "tazaCompresion", required = false, defaultValue = "3") Integer tazaCompresion
 
     ){
+        if(tazaCompresion <= 0){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
         if(comprimido){
             return multimediaService.getArchivoComprimido(urlMultimedia, tazaCompresion);
         }else{

@@ -35,10 +35,12 @@ public class SecurityConfig {
                         //.requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().hasRole("ADMIN")
                 )
-                .cors(Customizer.withDefaults())
+                .cors(cors -> {
+                    cors.configurationSource(corsConfigurationSource());
+                })
+                //.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(autenticacionService)
-                //.cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         )

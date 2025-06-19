@@ -158,7 +158,9 @@ public class MultimediaService {
 
         if(crudo == null){
             System.out.println("-- El arreglo de bytes esta vacio. Imagen no encontrada");
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity
+                    .badRequest()
+                    .build();
         }
 
         //Obtengo la extension del archivo
@@ -172,7 +174,7 @@ public class MultimediaService {
                 ImageReader reader = readers.next();
 
                 //Obtiene una decima parte de la imagen
-                String format = reader.getFormatName(); // Ej: "JPEG", "PNG"
+                String formatoDeSalida = reader.getFormatName(); // Ej: "JPEG", "PNG"
                 int width = originalImage.getWidth() / porcion;
                 int height = originalImage.getHeight() / porcion;
 
@@ -186,7 +188,7 @@ public class MultimediaService {
 
                 //Devuelvo la imagen a bytes
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ImageIO.write(resizedImage, format, outputStream);
+                ImageIO.write(resizedImage, formatoDeSalida, outputStream);
 
                 //Libreria que detecta el tipo MIME del archivo
                 Tika tika = new Tika();
@@ -198,7 +200,9 @@ public class MultimediaService {
 
             } else {
                 System.out.println("-- No se pudo determinar el formato de imagen.");
-                return ResponseEntity.internalServerError().build();
+                return ResponseEntity
+                        .status(HttpStatus.NOT_ACCEPTABLE)
+                        .body(null);
             }
         }catch (IOException exception){
             System.out.println("-- Error en la conversion de bytes de la imagen");

@@ -235,6 +235,7 @@ public class BucketService {
 
         catch(SdkClientException e){
             System.out.println("-- Error trayendo el archivo: " + urlMultimedia);
+            System.out.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
 
