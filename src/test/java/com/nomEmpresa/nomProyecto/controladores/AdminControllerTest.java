@@ -118,7 +118,7 @@ class AdminControllerTest {
 
     @Test
     void listarGalerias() {
-        ResponseEntity<GaleriaPage> response = adminController.listarGalerias(true,true,Instant.parse("2025-05-01T00:00:00.000Z"),0,10);
+        ResponseEntity<GaleriaPage> response = adminController.listarGalerias(true,true,Instant.parse("2025-05-01T00:00:00.000Z"),0,10,"DESC");
 
         Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
         Assertions.assertNotEquals(HttpStatusCode.valueOf(404), response.getStatusCode());

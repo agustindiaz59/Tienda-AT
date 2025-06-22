@@ -130,7 +130,7 @@ class MultimediaControllerTest {
 
     @Test
     void listarMulti() {
-        ResponseEntity respuesta = multimediaController.listarMulti("AT-GAL001",Instant.parse("2024-10-01T00:00:00Z"),0,10);
+        ResponseEntity respuesta = multimediaController.listarMulti("AT-GAL001",Instant.parse("2024-10-01T00:00:00Z"),0,10, "DESC");
 
         Assertions.assertEquals(respuesta.getStatusCode(), HttpStatusCode.valueOf(200));
     }

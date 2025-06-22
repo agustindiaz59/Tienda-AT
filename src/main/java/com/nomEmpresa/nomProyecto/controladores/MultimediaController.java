@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,6 +63,10 @@ public class MultimediaController {
                     @ApiResponse(
                             responseCode = "404",
                             description = "Galeria no encontrada en el sistema, O error en la fecha, usar formato ISO-8601 UTC (YYYY-MM-DD'T'HH:mm:ss.SSX'Z')"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Error de solicitud, verificar parametros"
                     )
             }
     )
@@ -70,15 +75,21 @@ public class MultimediaController {
     public ResponseEntity<DetallesGaleriaPage> listarMulti(
             @PathVariable("idGaleria") String idGaleria,
             @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00Z") Instant ultimaFecha,
-            @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
-            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina
-
+            @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") Integer paginaSolicitada,
+            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") Integer elementosPorPagina,
+            @RequestParam(value = "orden", required = false, defaultValue = "DESC") String orden
     ){
+
+        if(!orden.equalsIgnoreCase("ASC") && !orden.equalsIgnoreCase("DESC")){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
 
         return multimediaService.listarMulti(
                 idGaleria,
                 ultimaFecha,
-                PageRequest.of(paginaSolicitada, elementosPorPagina));
+                PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.fromString(orden), "fechaModificado")));
     }
 
 

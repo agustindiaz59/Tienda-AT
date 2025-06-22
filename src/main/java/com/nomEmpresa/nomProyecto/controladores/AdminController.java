@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +76,8 @@ public class AdminController {
             //@RequestParam(required = false) Pageable pagina,
             @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00.000Z") Instant ultimaFecha,
             @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
-            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina
+            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina,
+            @RequestParam(value = "orden", required = false, defaultValue = "DESC") String orden
             ){
 
         if(elementosPorPagina < 1){
@@ -90,13 +92,27 @@ public class AdminController {
                     .build();
         }
 
+        if (orden.equalsIgnoreCase("DESC")){
+            return galeriaService.listarGalerias(
+                    archivos,
+                    notas,
+                    ultimaFecha,
+                    PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.DESC, "fechaDeCreacion"))
+            );
+        } else if (orden.equalsIgnoreCase("ASC")) {
+            return galeriaService.listarGalerias(
+                    archivos,
+                    notas,
+                    ultimaFecha,
+                    PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.ASC, "fechaDeCreacion"))
+            );
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
 
-        return galeriaService.listarGalerias(
-                archivos,
-                notas,
-                ultimaFecha,
-                PageRequest.of(paginaSolicitada, elementosPorPagina)
-        );
+
     }
 
 
