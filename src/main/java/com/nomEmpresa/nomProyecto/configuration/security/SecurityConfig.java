@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests( (request) -> request
                         .requestMatchers("/multi/**").permitAll()
                         .requestMatchers("/login/verificar").permitAll()
+                        .requestMatchers("/admin/galerias/listar/*").permitAll()
                         //.requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().hasRole("ADMIN")
                 )

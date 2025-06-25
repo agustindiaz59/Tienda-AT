@@ -28,20 +28,16 @@ import java.time.Instant;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private GaleriaService galeriaService;
+    private final GaleriaService galeriaService;
 
-    private MultimediaService multimediaService;
-
-    private AdministradorService administradorService;
-
+    private final MultimediaService multimediaService;
 
 
 
     @Autowired
-    public AdminController(GaleriaService galeriaService, MultimediaService multimediaService, AdministradorService administradorService) {
+    public AdminController(GaleriaService galeriaService, MultimediaService multimediaService) {
         this.galeriaService = galeriaService;
         this.multimediaService = multimediaService;
-        this.administradorService = administradorService;
     }
 
 
@@ -57,7 +53,7 @@ public class AdminController {
      */
     @Operation(
             summary = "Lista las galerias disponibles en el sistema",
-            description = "Lista todas las galerias en la Base de datos, las cuales corresponden a carpetas en Wasabi",
+            description = "Lista todas las galerias en la Base de datos, las cuales corresponden a carpetas en Wasabi (Endpoint público)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
