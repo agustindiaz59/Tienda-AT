@@ -37,6 +37,11 @@ public class Nota {
         this.contenido = contenido;
     }
 
+    public Nota(String contenidoNota, Galeria galeria) {
+        this.contenido = contenido;
+        this.galeria = galeria;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

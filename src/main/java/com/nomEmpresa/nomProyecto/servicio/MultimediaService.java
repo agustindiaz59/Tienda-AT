@@ -2,12 +2,12 @@ package com.nomEmpresa.nomProyecto.servicio;
 
 import com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.respuestas.MultimediaPage;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
 import com.nomEmpresa.nomProyecto.modelos.Nota;
 import com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository;
 import com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository;
+import com.nomEmpresa.nomProyecto.repositorio.INotaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.apache.tika.Tika;
@@ -29,9 +29,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MultimediaService {
@@ -43,6 +41,8 @@ public class MultimediaService {
 
     private final BucketService bucketService;
 
+    private final INotaRepository notaRepository;
+
 
 
 
@@ -50,10 +50,11 @@ public class MultimediaService {
 
 
     @Autowired
-    public MultimediaService(IGaleriaRepository galeriaRepository, IMultimediaRepository multimediaRepository, BucketService bucketService) {
+    public MultimediaService(IGaleriaRepository galeriaRepository, IMultimediaRepository multimediaRepository, BucketService bucketService, INotaRepository notaRepository) {
         this.galeriaRepository = galeriaRepository;
         this.multimediaRepository = multimediaRepository;
         this.bucketService = bucketService;
+        this.notaRepository = notaRepository;
     }
 
 
@@ -100,7 +101,8 @@ public class MultimediaService {
     public ResponseEntity<DetallesGaleriaPage> listarMulti(
             String idGaleria,
             Instant desde,
-            Pageable paginaSolicitada
+            Pageable multimediaPageSolicitada,
+            Pageable notasPageSolicitada
     ) {
 
         //Verifico que la galeria exista
@@ -117,11 +119,19 @@ public class MultimediaService {
                                 galeria.get().getNombre()
                         ),
                         desde,
-                        paginaSolicitada
+                        multimediaPageSolicitada
                 );
 
+        //Traigo las notas relacionadas a esa galeria
+        Page<Nota> notas = notaRepository.findByGaleria(
+                new Galeria(
+                galeria.get().getIdGaleria(),
+                galeria.get().getNombre()
+        ) ,notasPageSolicitada);
+
+
         //Armo la respuesta
-        DetallesGaleriaPage respuesta = new DetallesGaleriaPage(galeria.get(), paginaMulti);
+        DetallesGaleriaPage respuesta = new DetallesGaleriaPage(galeria.get(), paginaMulti, notas);
         return ResponseEntity.ofNullable(respuesta);
     }
 
@@ -259,8 +269,34 @@ public class MultimediaService {
                 .ok(DTOMapper.galeriaDTO(editado,true,true));
     }
 
-    public ResponseEntity<String> deleteNota(String idGaleria, String contenidoNota) {
 
+    @Transactional
+    public ResponseEntity<String> deleteNota(String idGaleria, String contenidoNota) {
+        Optional<Galeria> optionalGaleria = galeriaRepository.findById(idGaleria);
+
+        if (optionalGaleria.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("-- Galeria con id: " + idGaleria + " no existente en el sistema");
+        }
+
+        Optional<Nota> existe = notaRepository.findByContenidoIgnoreCaseAndGaleria(contenidoNota, optionalGaleria.get());
+
+        if(existe.isEmpty()){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("-- Nota con contenido: " + contenidoNota + " no encontrada en la galeria " + idGaleria);        }
+        else
+            notaRepository.deleteByContenidoAndGaleria(contenidoNota, optionalGaleria.get());
+
+        return ResponseEntity
+                .ok("-- Nota eliminada correctamente de la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+    }
+
+
+
+
+        /*
         //Verifico que la galeria exista
         Optional<Galeria> galeria = galeriaRepository.findById(idGaleria);
 
@@ -270,28 +306,48 @@ public class MultimediaService {
                     .body("-- Galeria con id: " + idGaleria + " no existente en el sistema");
         }
 
+
         //Obtengo todas las notas de esa galeria
         List<Nota> notas = galeria.get().getNotas();
 
-        //Verifico que la nota exista en la galeria
-        if(notas.contains(contenidoNota)){
-
-            //Elimino la nota de la galeria
-            notas.remove(contenidoNota);
-
-            //Guardo los cambios en la galeria
-            galeriaRepository.save(galeria.get());
-
-            return ResponseEntity
-                    .status(HttpStatus.NO_CONTENT)
-                    .body("-- Nota eliminada correctamente de la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
-        }else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("-- Nota no existente en la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+        //Elimino la nota de la galeria
+        for(Nota n : notas){
+            if(n.getContenido().equalsIgnoreCase(contenidoNota)){
+                notas.remove(n);
+                n.setGaleria(null);
+            }
         }
 
+        //Guardo los cambios en la galeria
+        Galeria editada = galeria.get();
+        editada.setNotas(notas);
+        galeriaRepository.save(editada);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("-- Nota eliminada correctamente de la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+
+//        //Verifico que la nota exista en la galeria
+//        if(notas.contains(buscado)){
+//
+//            //Elimino la nota de la galeria
+//            notas.remove(buscado);
+//
+//            //Guardo los cambios en la galeria
+//            Galeria editada = galeria.get();
+//            editada.setNotas(notas);
+//            galeriaRepository.save(editada);
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.NO_CONTENT)
+//                    .body("-- Nota eliminada correctamente de la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+//        }else {
+//            return ResponseEntity
+//                    .status(HttpStatus.NOT_FOUND)
+//                    .body("-- Nota no existente en la galeria " + idGaleria + "\n-- Nota: " + contenidoNota);
+//        }
+
+*/
 
 
-    }
 }

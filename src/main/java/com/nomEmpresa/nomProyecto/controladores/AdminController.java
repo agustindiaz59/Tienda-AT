@@ -1,23 +1,22 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.respuestas.GaleriaPage;
-import com.nomEmpresa.nomProyecto.servicio.AdministradorService;
+import com.nomEmpresa.nomProyecto.dto.respuestas.PaginaPersonalizada;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 
 @Tag(
@@ -46,6 +45,8 @@ public class AdminController {
 
 
 
+
+
     /**
      * Obtener un listado de todas las galerias registradas
      *
@@ -66,42 +67,30 @@ public class AdminController {
             }
     )
     @GetMapping("/galerias/listar")
-    public ResponseEntity<GaleriaPage> listarGalerias(
+    public ResponseEntity<PaginaPersonalizada<GaleriaDTO>> listarGalerias(
             @RequestParam(value = "archivos",required = false, defaultValue = "false") Boolean archivos,
             @RequestParam(value = "notas",required = false, defaultValue = "false") Boolean notas,
-            //@RequestParam(required = false) Pageable pagina,
+
             @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00.000Z") Instant ultimaFecha,
             @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
             @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina,
             @RequestParam(value = "orden", required = false, defaultValue = "DESC") String orden
-            ){
+    ){
 
-        if(elementosPorPagina < 1){
-            return ResponseEntity
-                    .status(HttpStatusCode.valueOf(400))
-                    .build();
-        }
-
-        if(paginaSolicitada < 0){
+        if(elementosPorPagina < 1 || paginaSolicitada < 0){
             return ResponseEntity
                     .badRequest()
                     .build();
         }
 
-        if (orden.equalsIgnoreCase("DESC")){
+        if (orden.equalsIgnoreCase("DESC") || orden.equalsIgnoreCase("ASC")){
             return galeriaService.listarGalerias(
                     archivos,
                     notas,
                     ultimaFecha,
-                    PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.DESC, "fechaDeCreacion"))
+                    PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.fromString(orden),"fechaDeCreacion"))
             );
-        } else if (orden.equalsIgnoreCase("ASC")) {
-            return galeriaService.listarGalerias(
-                    archivos,
-                    notas,
-                    ultimaFecha,
-                    PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.ASC, "fechaDeCreacion"))
-            );
+
         } else {
             return ResponseEntity
                     .badRequest()
@@ -110,6 +99,8 @@ public class AdminController {
 
 
     }
+
+
 
 
 
@@ -139,7 +130,7 @@ public class AdminController {
     )
     @PostMapping("/galeria/nuevo")
     public ResponseEntity<GaleriaDTO> crearGaleria(
-            @RequestParam(value = "nombre", required = true) String nombre,
+            @RequestParam(value = "nombre") String nombre,
             @RequestParam(value = "imagen-perfil", required = false) MultipartFile imagenPerfil,
             @RequestParam(value = "imagen-banner", required = false) MultipartFile imagenBanner,
             HttpServletRequest request
@@ -220,6 +211,8 @@ public class AdminController {
             @RequestParam("idGaleria") String idGaleria,
             @RequestParam("contenidoNota") String contenidoNota
     ){
+        contenidoNota = URLDecoder.decode(contenidoNota, StandardCharsets.UTF_8);
+        System.out.println(contenidoNota);
         return multimediaService.deleteNota(idGaleria, contenidoNota);
     }
 

@@ -4,11 +4,8 @@ import com.nomEmpresa.nomProyecto.dto.AdministradorDTO;
 import com.nomEmpresa.nomProyecto.modelos.Administrador;
 import com.nomEmpresa.nomProyecto.servicio.AdministradorService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +26,7 @@ public class LoginController {
     private final AdministradorService administradorService;
 
 
+    @Autowired
     public LoginController(AdministradorService administradorService) {
         this.administradorService = administradorService;
     }

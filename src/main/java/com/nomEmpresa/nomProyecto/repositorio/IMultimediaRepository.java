@@ -22,4 +22,5 @@ public interface IMultimediaRepository extends JpaRepository<Multimedia, Long> {
     );
 
     void deleteBySrc(String urlMultimedia);
+
 }

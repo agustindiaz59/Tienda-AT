@@ -25,4 +25,6 @@ public interface IGaleriaRepository extends JpaRepository<Galeria,String> {
 
 
     Page<Galeria> findByfechaDeCreacionAfter(Instant desde, Pageable paginaSolicitada);
-}
+
+    List<Galeria> findAllByIdGaleria(String idGaleria);
+ }

@@ -1,6 +1,5 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
@@ -17,7 +16,7 @@ public abstract class Validador {
     /**
      * Formatos de imagen permitidos
      */
-    private static Set<String> formatosPermitidos = Set.of(
+    private static final Set<String> formatosPermitidos = Set.of(
             "image/heic",
             "image/heif",
             "image/png",

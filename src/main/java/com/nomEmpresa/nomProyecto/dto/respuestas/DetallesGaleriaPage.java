@@ -6,6 +6,7 @@ import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import com.nomEmpresa.nomProyecto.dto.modelos.NotaDTO;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
+import com.nomEmpresa.nomProyecto.modelos.Nota;
 import com.nomEmpresa.nomProyecto.servicio.DTOMapper;
 import lombok.*;
 import org.springframework.data.domain.Page;
@@ -31,23 +32,26 @@ public class DetallesGaleriaPage {
     @JsonProperty("imagen-banner")
     private MultimediaDTO imagenBanner;
 
-    //Debe empezar vacio
-    //Debe ser un List para no eliminar los repetidos
-    private List<MultimediaDTO> archivos;
     private String nombre;
-    private Instant fechaDeCreacion;
-    private List<NotaDTO> notas;
 
-    //Campos de paginacion
-    private Integer paginaActual;
-    private Integer totalDePaginas;
-    private Integer tamaño;
-    private Integer totalDeElementos;
+    private Instant fechaDeCreacion;
+
+    //Multimedias
+    private PaginaPersonalizada<MultimediaDTO> fotosPage;
+
+    //Notas
+    private PaginaPersonalizada<NotaDTO> notasPage;
+
+
+
+
+
 
 
     public DetallesGaleriaPage(
             Galeria galeria,
-            Page<Multimedia> multimediaPage
+            Page<Multimedia> multimediaPage,
+            Page<Nota> notasPage
     ){
 
         GaleriaDTO galeriaDTO = DTOMapper.galeriaDTO(galeria,true, true);
@@ -59,23 +63,36 @@ public class DetallesGaleriaPage {
         this.setImagenPerfil(galeriaDTO.imagenPerfil());
         this.setImagenBanner(galeriaDTO.imagenBanner());
         this.setFechaDeCreacion(galeriaDTO.fechaDeCreacion());
-        this.setNotas(galeriaDTO.notas());
 
 
-        //Pageable usa una List<> asi que casteo a una Set<>
-        List<MultimediaDTO> multimediaDTOS = multimediaPage.getContent()
-                .stream()
-                .map(Multimedia::getDTO)
-                .collect(Collectors.toList());
+        //Iniciar las fotos
+        PaginaPersonalizada<MultimediaDTO> fotos = PaginaPersonalizada
+                .<MultimediaDTO>builder()
+                .contenido(multimediaPage.getContent()
+                        .stream()
+                        .map(Multimedia::getDTO)
+                        .toList()
+                )
+                .paginaActual(multimediaPage.getNumber())
+                .totalDePaginas(multimediaPage.getTotalPages())
+                .tamaño(multimediaPage.getSize())
+                .totalDeElementos(multimediaPage.getTotalElements())
+                .build();
+        this.setFotosPage(fotos);
 
-        this.setArchivos(multimediaDTOS);
 
 
-        //Campos de paginacion
-        this.setPaginaActual(multimediaPage.getNumber());
-        this.setTotalDePaginas(multimediaPage.getTotalPages());
-        this.setTamaño(multimediaPage.getSize());
-        this.setTotalDeElementos(Integer.parseInt(String.valueOf(multimediaPage.getTotalElements())));
+        //Iniciar las notas
+        PaginaPersonalizada<NotaDTO> notasResp = PaginaPersonalizada.
+                <NotaDTO>builder()
+                .contenido(DTOMapper.notasDTO(notasPage.getContent()))
+                .paginaActual(notasPage.getNumber())
+                .totalDePaginas(notasPage.getTotalPages())
+                .tamaño(notasPage.getSize())
+                .totalDeElementos(notasPage.getTotalElements())
+                .build();
+        this.setNotasPage(notasResp);
+
     }
 
 }

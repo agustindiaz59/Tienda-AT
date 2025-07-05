@@ -2,7 +2,6 @@ package com.nomEmpresa.nomProyecto.controladores;
 
 import com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import com.nomEmpresa.nomProyecto.servicio.Validador;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,17 +27,15 @@ import java.time.Instant;
 public class MultimediaController {
 
 
-    private GaleriaService galeriaService;
 
-    private MultimediaService multimediaService;
+    private final MultimediaService multimediaService;
 
 
 
 
 
     @Autowired
-    public MultimediaController(GaleriaService galeriaService, MultimediaService multimediaService) {
-        this.galeriaService = galeriaService;
+    public MultimediaController(MultimediaService multimediaService) {
         this.multimediaService = multimediaService;
     }
 
@@ -75,12 +72,22 @@ public class MultimediaController {
     public ResponseEntity<DetallesGaleriaPage> listarMulti(
             @PathVariable("idGaleria") String idGaleria,
             @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00Z") Instant ultimaFecha,
-            @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") Integer paginaSolicitada,
-            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") Integer elementosPorPagina,
-            @RequestParam(value = "orden", required = false, defaultValue = "DESC") String orden
+
+            @RequestParam(value = "paginaFotos", required = false, defaultValue = "0") Integer numeroDePaginaFotos,
+            @RequestParam(value = "elementosPorPaginaFotos", required = false, defaultValue = "10") Integer elementosPorPaginaFotos,
+            @RequestParam(value = "ordenFotos", required = false, defaultValue = "DESC") String ordenFotos,
+
+            @RequestParam(value = "paginaNotas", required = false, defaultValue = "0") Integer numeroDePaginaNotas,
+            @RequestParam(value = "elementosPorPaginaNotas", required = false, defaultValue = "10") Integer elementosPorPaginaNotas,
+            @RequestParam(value = "ordenNotas", required = false, defaultValue = "DESC") String ordenNotas
     ){
 
-        if(!orden.equalsIgnoreCase("ASC") && !orden.equalsIgnoreCase("DESC")){
+        if(!ordenFotos.equalsIgnoreCase("ASC") && !ordenFotos.equalsIgnoreCase("DESC")){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
+        if(!ordenNotas.equalsIgnoreCase("ASC") && !ordenNotas.equalsIgnoreCase("DESC")){
             return ResponseEntity
                     .badRequest()
                     .build();
@@ -89,7 +96,9 @@ public class MultimediaController {
         return multimediaService.listarMulti(
                 idGaleria,
                 ultimaFecha,
-                PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.fromString(orden), "fechaModificado")));
+                PageRequest.of(numeroDePaginaFotos, elementosPorPaginaFotos, Sort.by(Sort.Direction.fromString(ordenFotos), "fechaModificado")),
+                PageRequest.of(numeroDePaginaNotas, elementosPorPaginaNotas, Sort.by(Sort.Direction.fromString(ordenNotas),"hora"))
+        );
     }
 
 
