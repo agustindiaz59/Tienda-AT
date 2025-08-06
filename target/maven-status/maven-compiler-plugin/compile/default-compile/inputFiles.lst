@@ -1,35 +1,35 @@
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\CacheConfig.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\CacheName.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\JpaConfig.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\OpenApiConfig.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\S3StorageConfig.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\Autenticacion.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\SecurityConfig.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\AdminController.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\LoginController.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\MultimediaController.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\AdministradorDTO.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\GaleriaDTO.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\MultimediaDTO.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\NotaDTO.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\DetallesGaleriaPage.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\PaginaPersonalizada.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\wasabi\BucketObject.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\wasabi\WasabiResponse.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\errores\ControllerAdvice.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Administrador.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Galeria.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Multimedia.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Nota.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\modelos\Roles.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\NomProyectoApplication.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IAdministradorRepository.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IGaleriaRepository.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IMultimediaRepository.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\INotaRepository.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\AdministradorService.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\BucketService.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\DTOMapper.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\GaleriaService.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\MultimediaService.java
-D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\Validador.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\CacheConfig.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\CacheName.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\JpaConfig.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\OpenApiConfig.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\S3StorageConfig.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\Autenticacion.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\SecurityConfig.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\controladores\AdminController.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\controladores\LoginController.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\controladores\MultimediaController.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\AdministradorDTO.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\GaleriaDTO.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\MultimediaDTO.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\modelos\NotaDTO.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\DetallesGaleriaPage.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\respuestas\PaginaPersonalizada.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\wasabi\BucketObject.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\dto\wasabi\WasabiResponse.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\errores\ControllerAdvice.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\modelos\Administrador.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\modelos\Galeria.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\modelos\Multimedia.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\modelos\Nota.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\modelos\Roles.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\NomProyectoApplication.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IAdministradorRepository.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IGaleriaRepository.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IMultimediaRepository.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\repositorio\INotaRepository.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\servicio\AdministradorService.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\servicio\BucketService.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\servicio\DTOMapper.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\servicio\GaleriaService.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\servicio\MultimediaService.java
+C:\Users\Matias\Desktop\Nueva carpeta\Tienda-AT\src\main\java\com\nomEmpresa\nomProyecto\servicio\Validador.java

@@ -1,0 +1,46 @@
+-------------------------------------------------------------------------------
+Test set: com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.024 s <<< FAILURE! -- in com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest
+com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.listarMulti -- Time elapsed: 0.005 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.setUp(MultimediaServiceTest.java:14)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.agregarNota -- Time elapsed: 0.002 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.setUp(MultimediaServiceTest.java:14)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.getArchivoCompleto -- Time elapsed: 0.003 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.setUp(MultimediaServiceTest.java:14)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.deleteArchivo -- Time elapsed: 0.001 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.setUp(MultimediaServiceTest.java:14)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.getArchivoComprimido -- Time elapsed: 0.003 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.setUp(MultimediaServiceTest.java:14)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.agregarMultimedia -- Time elapsed: 0.002 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.MultimediaServiceTest.setUp(MultimediaServiceTest.java:14)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.010 s <<< FAILURE! -- in com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest
+com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest.cambiarContraseniaAdmin -- Time elapsed: 0.001 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest.cambiarContraseniaAdmin(AdministradorServiceTest.java:11)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest.crearAdmin -- Time elapsed: 0.004 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest.crearAdmin(AdministradorServiceTest.java:16)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest.eliminarAdministrador -- Time elapsed: 0.002 s <<< ERROR!
+org.apache.commons.lang3.NotImplementedException
+	at com.nomEmpresa.nomProyecto.servicio.AdministradorServiceTest.eliminarAdministrador(AdministradorServiceTest.java:21)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

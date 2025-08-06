@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+Test set: com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.160 s <<< FAILURE! -- in com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest
+com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest.traerMultimedia -- Time elapsed: 0.007 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.nomEmpresa.nomProyecto.servicio.MultimediaService.getArchivoCompleto(String)" because "this.multimediaService" is null
+	at com.nomEmpresa.nomProyecto.controladores.MultimediaController.traerMultimedia(MultimediaController.java:201)
+	at com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest.traerMultimedia(MultimediaControllerTest.java:160)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest.subirNota -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.nomEmpresa.nomProyecto.servicio.MultimediaService.agregarNota(String, String)" because "this.multimediaService" is null
+	at com.nomEmpresa.nomProyecto.controladores.MultimediaController.subirNota(MultimediaController.java:236)
+	at com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest.subirNota(MultimediaControllerTest.java:167)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest.uploadMulti -- Time elapsed: 0.018 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.nomEmpresa.nomProyecto.servicio.MultimediaService.agregarMultimedia(String, org.springframework.web.multipart.MultipartFile, jakarta.servlet.http.HttpServletRequest)" because "this.multimediaService" is null
+	at com.nomEmpresa.nomProyecto.controladores.MultimediaController.uploadMulti(MultimediaController.java:143)
+	at com.nomEmpresa.nomProyecto.controladores.MultimediaControllerTest.uploadMulti(MultimediaControllerTest.java:150)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
