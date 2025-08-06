@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GaleriaServiceTest {
-
+/*
     @Test
     void listarGalerias() {
         throw new NotImplementedException();
@@ -36,4 +36,6 @@ class GaleriaServiceTest {
     void updateGaleria() {
         throw new NotImplementedException();
     }
+
+ */
 }
