@@ -55,12 +55,21 @@ public class DatosAuxiliaresService {
         //Traigo los datos de la BBDD
         Optional<DatosAuxiliares> datos = repositorio.findById(1L);
 
-        //Si el registro existe lo devuelve cómo DTO, si no, devuelve un 500
-        return datos.map(datosAuxiliares -> ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body(DTOMapper.getDatosAuxiliaresDTO(datosAuxiliares))).orElseGet(() -> ResponseEntity
-                .internalServerError()
-                .build());
+        //Si el registro existe lo devuelve cómo DTO, si no, devuelve un 501
+        if(datos.isEmpty()){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_IMPLEMENTED)
+                    .body(null);
+        }else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(DTOMapper.getDatosAuxiliaresDTO(datos.get()));
+        }
+//        return datos.map(datosAuxiliares -> ResponseEntity
+//                .status(HttpStatus.NOT_IMPLEMENTED)
+//                .body(DTOMapper.getDatosAuxiliaresDTO(datosAuxiliares))).orElseGet(() -> ResponseEntity
+//                .internalServerError()
+//                .build());
     }
 
     public ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto servicioDto) {
