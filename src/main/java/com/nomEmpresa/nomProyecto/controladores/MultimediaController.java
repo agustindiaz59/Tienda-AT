@@ -1,7 +1,10 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
+import com.nomEmpresa.nomProyecto.dto.modelos.DatosAuxiliaresDTO;
+import com.nomEmpresa.nomProyecto.dto.modelos.ServicioDto;
 import com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
+import com.nomEmpresa.nomProyecto.servicio.DatosAuxiliaresService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import com.nomEmpresa.nomProyecto.servicio.Validador;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,13 +33,16 @@ public class MultimediaController {
 
     private final MultimediaService multimediaService;
 
+    private final DatosAuxiliaresService datosAuxiliaresService;
+
 
 
 
 
     @Autowired
-    public MultimediaController(MultimediaService multimediaService) {
+    public MultimediaController(MultimediaService multimediaService, DatosAuxiliaresService datosAuxiliaresService) {
         this.multimediaService = multimediaService;
+        this.datosAuxiliaresService = datosAuxiliaresService;
     }
 
 
@@ -235,6 +241,27 @@ public class MultimediaController {
         }
         return multimediaService.agregarNota(idGaleria, nota);
     }
+
+
+
+
+    @GetMapping("/datos")
+    public ResponseEntity<DatosAuxiliaresDTO> getDatosAuxiliares(){
+        return datosAuxiliaresService.traer();
+    }
+
+    @PostMapping("/datos")
+    public ResponseEntity<DatosAuxiliaresDTO> setDatosAuxiliares(DatosAuxiliaresDTO dto){
+        return datosAuxiliaresService.editar(dto);
+    }
+
+
+    @PostMapping("/datos/servicios")
+    public ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto servicioDto){
+        return datosAuxiliaresService.agregarServicio(servicioDto);
+    }
+
+
 
 }
 

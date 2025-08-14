@@ -1,7 +1,9 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
+import com.nomEmpresa.nomProyecto.dto.modelos.DatosAuxiliaresDTO;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.dto.respuestas.PaginaPersonalizada;
+import com.nomEmpresa.nomProyecto.servicio.DatosAuxiliaresService;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,23 +74,29 @@ public class AdminController {
             @RequestParam(value = "notas",required = false, defaultValue = "false") Boolean notas,
 
             @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00.000Z") Instant ultimaFecha,
-            @RequestParam(value = "paginaSolicitada", required = false, defaultValue = "0") int paginaSolicitada,
-            @RequestParam(value = "elementosPorPagina", required = false, defaultValue = "10") int elementosPorPagina,
-            @RequestParam(value = "orden", required = false, defaultValue = "DESC") String orden
+            @RequestParam(value = "paginaSolicitadaMulti", required = false, defaultValue = "0") int paginaSolicitadaMulti,
+            @RequestParam(value = "elementosPorPaginaMulti", required = false, defaultValue = "10") int elementosPorPaginaMulti,
+            @RequestParam(value = "ordenMulti", required = false, defaultValue = "DESC") String ordenMulti
+
+            // TODO paginar las notas asi cómo a las fotos
+            //,@RequestParam(value = "paginaSolicitadaNotas", required = false, defaultValue = "0") int paginaSolicitadaNotas,
+            //@RequestParam(value = "elementosPorPaginaNotas", required = false, defaultValue = "10") int elementosPorPaginaNotas,
+            //@RequestParam(value = "ordenNotas", required = false, defaultValue = "DESC") String ordenNotas
     ){
 
-        if(elementosPorPagina < 1 || paginaSolicitada < 0){
+        if(elementosPorPaginaMulti < 1 || paginaSolicitadaMulti < 0){
             return ResponseEntity
                     .badRequest()
                     .build();
         }
 
-        if (orden.equalsIgnoreCase("DESC") || orden.equalsIgnoreCase("ASC")){
+        if (ordenMulti.equalsIgnoreCase("DESC") || ordenMulti.equalsIgnoreCase("ASC")){
             return galeriaService.listarGalerias(
                     archivos,
                     notas,
                     ultimaFecha,
-                    PageRequest.of(paginaSolicitada, elementosPorPagina, Sort.by(Sort.Direction.fromString(orden),"fechaDeCreacion"))
+                    PageRequest.of(paginaSolicitadaMulti, elementosPorPaginaMulti, Sort.by(Sort.Direction.fromString(ordenMulti),"fechaDeCreacion"))
+                    //,PageRequest.of(paginaSolicitadaNotas, elementosPorPaginaNotas, Sort.by(Sort.Direction.fromString(ordenNotas),"contenido"))
             );
 
         } else {
@@ -300,5 +308,11 @@ public class AdminController {
                 request
         );
     }
+
+
+
+
+
+
 
 }

@@ -122,7 +122,6 @@ class MultimediaControllerTest {
         //Inyeccion de dependencias configuradas
         galeriaService = new GaleriaService(galeriaRepository, bucketService,null);
         //multimediaService = new MultimediaService(galeriaRepository, iMultimediaRepository, bucketService);
-        multimediaController = new MultimediaController(multimediaService);
     }
 
 

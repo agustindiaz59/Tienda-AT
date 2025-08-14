@@ -1,11 +1,7 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.NotaDTO;
-import com.nomEmpresa.nomProyecto.modelos.Galeria;
-import com.nomEmpresa.nomProyecto.modelos.Multimedia;
-import com.nomEmpresa.nomProyecto.modelos.Nota;
+import com.nomEmpresa.nomProyecto.dto.modelos.*;
+import com.nomEmpresa.nomProyecto.modelos.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,6 +11,15 @@ import java.util.stream.Collectors;
 
 public abstract class DTOMapper {
 
+    /**
+     *
+     * Toma una galeria y la mapea a un DTO equivalente
+     *
+     * @param galeria galeria en cuestión
+     * @param archivos incluir archivos
+     * @param notas incluir notas
+     * @return DTO listo para exponer
+     */
     public static GaleriaDTO galeriaDTO(
             Galeria galeria,
             Boolean archivos,
@@ -80,10 +85,60 @@ public abstract class DTOMapper {
     }
 
 
+    /**
+     *
+     * Toma una lista de notas y las mapea a una lista de DTO's listos para exponer
+     *
+     * @param notas Notas en cuestion
+     * @return DTO's listos para exponer
+     */
     public static List<NotaDTO> notasDTO(List<Nota> notas){
         return notas.stream()
                 .map(n -> new NotaDTO(n.getContenido(), n.getHora()))
                 .toList();
+    }
+
+    public static DatosAuxiliaresDTO getDatosAuxiliaresDTO(DatosAuxiliares crudo){
+        return new DatosAuxiliaresDTO(
+                //Datos principales
+                crudo.getPresentacion(),
+                crudo.getDireccion(),
+                crudo.getCelular(),
+                crudo.getHorario(),
+                crudo.getEmail(),
+                crudo.getFacebook(),
+                crudo.getInstagram(),
+                crudo.getWhatsapp(),
+                //Relaciones
+                getServiciosDto(crudo.getServicios())
+        );
+    }
+
+
+
+
+    /**
+     *
+     * Toma un conjunto de servicios y los mapea a un conjunto de DTO's del mismo tipo
+     *
+     * @param servicios servicios en crudo
+     * @return DTO's listos para exponer
+     */
+    public static Set<ServicioDto> getServiciosDto(Set<Servicio> servicios){
+        return servicios.stream()
+                .map( servicio ->
+                        new ServicioDto(
+                                servicio.getTitulo(),
+                                servicio.getSubtitulo(),
+                                servicio.getDescripcion(),
+                                servicio.getIncluido(),
+                                servicio.getExclusivo(),
+                                servicio.getNotas(),
+                                servicio.getTipo(),
+                                servicio.getPrecio()
+                                )
+                )
+                .collect(Collectors.toSet());
     }
 
 
