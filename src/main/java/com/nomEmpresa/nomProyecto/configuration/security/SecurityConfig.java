@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/multi/**").permitAll()
                         .requestMatchers("/login/verificar").permitAll()
                         .requestMatchers("/admin/galerias/listar/**").permitAll()
-                        //.requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/datos/*").permitAll()
                         .anyRequest().hasRole("ADMIN")
                 )
                 .cors(cors -> {

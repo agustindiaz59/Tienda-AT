@@ -6,6 +6,7 @@ D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\Autenticacion.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\configuration\security\SecurityConfig.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\AdminController.java
+D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\DatosController.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\LoginController.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\controladores\MultimediaController.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\dto\AdministradorDTO.java
@@ -33,6 +34,7 @@ D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\ID
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IGaleriaRepository.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IMultimediaRepository.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\INotaRepository.java
+D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\repositorio\IServicioRepository.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\AdministradorService.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\BucketService.java
 D:\Proyectos\nomProyecto\src\main\java\com\nomEmpresa\nomProyecto\servicio\DatosAuxiliaresService.java

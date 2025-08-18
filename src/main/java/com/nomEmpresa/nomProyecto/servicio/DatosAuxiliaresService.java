@@ -5,6 +5,8 @@ import com.nomEmpresa.nomProyecto.dto.modelos.ServicioDto;
 import com.nomEmpresa.nomProyecto.modelos.DatosAuxiliares;
 import com.nomEmpresa.nomProyecto.modelos.Servicio;
 import com.nomEmpresa.nomProyecto.repositorio.IDatosAuxiliares;
+import com.nomEmpresa.nomProyecto.repositorio.IServicioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,15 +19,27 @@ public class DatosAuxiliaresService {
 
     private final IDatosAuxiliares repositorio;
 
-    public DatosAuxiliaresService(IDatosAuxiliares repositorio){
+    private final IServicioRepository servicioRepository;
+
+
+
+
+    public DatosAuxiliaresService(IDatosAuxiliares repositorio, IServicioRepository servicioRepository){
         this.repositorio = repositorio;
+        this.servicioRepository = servicioRepository;
     }
+
+
+
+
+
 
     public ResponseEntity<DatosAuxiliaresDTO> editar(DatosAuxiliaresDTO dto){
         //Buscar el registro en la BBDD, id por defecto 1
         DatosAuxiliares nuevo = new DatosAuxiliares();
 
         //Actualizar el registro
+
         nuevo.setCelular(dto.celular());
         nuevo.setDireccion(dto.direccion());
         nuevo.setPresentacion(dto.presentacion());
@@ -40,16 +54,21 @@ public class DatosAuxiliaresService {
 
         //Devolver respuesta
         if(repositorio.findById(1L).orElse(null) != null){ //Verifico si existe un registro con id = 1
-            return ResponseEntity
-                    .status(HttpStatus.ACCEPTED)
-                    .lastModified(Instant.now())
-                    .body(dto);
+            return aceptado(nuevo);
         }else{
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .header("ERROR","cannot_create")
                     .body(dto);
         }
     }
+
+
+
+
+
+
+
 
     public ResponseEntity<DatosAuxiliaresDTO> traer(){
         //Traigo los datos de la BBDD
@@ -57,25 +76,29 @@ public class DatosAuxiliaresService {
 
         //Si el registro existe lo devuelve cómo DTO, si no, devuelve un 501
         if(datos.isEmpty()){
-            return ResponseEntity
-                    .status(HttpStatus.NOT_IMPLEMENTED)
-                    .body(null);
+            return sinRegistroExistente();
         }else {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(DTOMapper.getDatosAuxiliaresDTO(datos.get()));
         }
-//        return datos.map(datosAuxiliares -> ResponseEntity
-//                .status(HttpStatus.NOT_IMPLEMENTED)
-//                .body(DTOMapper.getDatosAuxiliaresDTO(datosAuxiliares))).orElseGet(() -> ResponseEntity
-//                .internalServerError()
-//                .build());
     }
+
+
+
+
+
+
+
+
 
     public ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto servicioDto) {
         //Registro en BBDD
         Optional<DatosAuxiliares> datos = repositorio.findById(1L);
 
+        if(datos.isEmpty()){
+            return sinRegistroExistente();
+        }
 
         //Nuevo servicio
         Servicio nuevo = new Servicio();
@@ -87,13 +110,55 @@ public class DatosAuxiliaresService {
         nuevo.setIncluido(servicioDto.incluido());
         nuevo.setExclusivo(servicioDto.exclusivo());
         nuevo.setNotas(servicioDto.notas());
+        nuevo.setDatosAuxiliares(datos.get());
 
         // Guardar cambios
         datos.get().agregarServicio(nuevo);
         repositorio.save(datos.get());
 
+        return aceptado(repositorio.findById(1L).get());
+    }
+
+
+    @Transactional
+    public ResponseEntity<DatosAuxiliaresDTO> eliminarServicio(String titulo) {
+        Optional<DatosAuxiliares> datos = repositorio.findById(1L);
+
+        //Verifico que exista almenos un registro
+        if(datos.isEmpty()){
+            return sinRegistroExistente();
+        }
+
+        //Eliminacion fisica del servicio
+        servicioRepository.eliminar(titulo);
+
+        return aceptado(datos.get());
+    }
+
+
+    /**
+     * Respuesta en caso de que no haya un primer registro en la BBDD
+     *
+     * @return Http 501
+     */
+    private ResponseEntity<DatosAuxiliaresDTO> sinRegistroExistente(){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_IMPLEMENTED)
+                    .header("Warning","Registrar almenos un registro en la BBDD")
+                    .body(null);
+    }
+
+
+    /**
+     * Respuesta Exitosa
+     *
+     * @param datos Cuerpo de la solicitud
+     * @return Http 202
+     */
+    private ResponseEntity<DatosAuxiliaresDTO> aceptado(DatosAuxiliares datos){
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
-                .body(DTOMapper.getDatosAuxiliaresDTO(datos.get()));
+                .lastModified(Instant.now())
+                .body(DTOMapper.getDatosAuxiliaresDTO(datos));
     }
 }

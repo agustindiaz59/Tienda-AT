@@ -33,16 +33,14 @@ public class MultimediaController {
 
     private final MultimediaService multimediaService;
 
-    private final DatosAuxiliaresService datosAuxiliaresService;
 
 
 
 
 
     @Autowired
-    public MultimediaController(MultimediaService multimediaService, DatosAuxiliaresService datosAuxiliaresService) {
+    public MultimediaController(MultimediaService multimediaService) {
         this.multimediaService = multimediaService;
-        this.datosAuxiliaresService = datosAuxiliaresService;
     }
 
 
@@ -245,21 +243,7 @@ public class MultimediaController {
 
 
 
-    @GetMapping("/datos")
-    public ResponseEntity<DatosAuxiliaresDTO> getDatosAuxiliares(){
-        return datosAuxiliaresService.traer();
-    }
 
-    @PostMapping("/datos")
-    public ResponseEntity<DatosAuxiliaresDTO> setDatosAuxiliares(DatosAuxiliaresDTO dto){
-        return datosAuxiliaresService.editar(dto);
-    }
-
-
-    @PostMapping("/datos/servicios")
-    public ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto servicioDto){
-        return datosAuxiliaresService.agregarServicio(servicioDto);
-    }
 
 
 
