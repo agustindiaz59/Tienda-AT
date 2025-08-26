@@ -42,7 +42,7 @@ public class Servicio {
     @Column
     private Float precio;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "datos_auxiliares_id")
     private DatosAuxiliares datosAuxiliares;
 

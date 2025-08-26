@@ -1,0 +1,439 @@
+@startuml
+class com.nomEmpresa.nomProyecto.configuration.CacheConfig {
++ CacheManager cacheManager()
++ CaffeineCache cacheBuild(String,Long,TimeUnit)
+}
+
+class com.nomEmpresa.nomProyecto.servicio.MultimediaService {
+- IGaleriaRepository galeriaRepository
+- IMultimediaRepository multimediaRepository
+- BucketService bucketService
+- INotaRepository notaRepository
++ ResponseEntity<String> agregarMultimedia(String,MultipartFile,HttpServletRequest)
++ ResponseEntity<DetallesGaleriaPage> listarMulti(String,Instant,Pageable,Pageable)
++ ResponseEntity<byte[]> getArchivoCompleto(String)
++ ResponseEntity<byte[]> getArchivoComprimido(String,Integer)
++ ResponseEntity<String> deleteArchivo(String)
++ ResponseEntity<GaleriaDTO> agregarNota(String,String)
++ ResponseEntity<String> deleteNota(String,String)
+}
+
+
+class com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO {
+- String idGaleria
+- MultimediaDTO imagenPerfil
+- MultimediaDTO imagenBanner
+- Set<MultimediaDTO> archivos
+- String nombre
+- Instant fechaDeCreacion
+- List<NotaDTO> notas
++ MultimediaDTO imagenBanner()
++ Instant fechaDeCreacion()
++ List<NotaDTO> notas()
++ MultimediaDTO imagenPerfil()
++ String idGaleria()
++ Set<MultimediaDTO> archivos()
++ String nombre()
+}
+
+
+class com.nomEmpresa.nomProyecto.servicio.AdministradorService {
+- IAdministradorRepository administradorRepository
+- PasswordEncoder passwordEncoder
++ ResponseEntity<AdministradorDTO> cambiarContraseniaAdmin(AdministradorDTO)
++ ResponseEntity<AdministradorDTO> crearAdmin(AdministradorDTO)
++ ResponseEntity<AdministradorDTO> eliminarAdministrador(String)
++ Administrador consultarAdministrador(String)
++ boolean compararContrasenias(String,String)
+}
+
+
+enum com.nomEmpresa.nomProyecto.modelos.Roles {
++  ROLE_ADMIN
++  ROLE_USER
+- Long id
++ String getAuthority()
+}
+
+
+enum com.nomEmpresa.nomProyecto.configuration.CacheName {
++  ADMINISTRADOR
++  INTENTOS_USUARIO
+}
+
+class com.nomEmpresa.nomProyecto.modelos.Multimedia {
+- Long id
+- String src
+- Instant fechaModificado
+- Galeria idGaleria
++ MultimediaDTO getDTO()
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.nomEmpresa.nomProyecto.controladores.LoginController {
+- AdministradorService administradorService
++ ResponseEntity<AdministradorDTO> modificarAdmin(AdministradorDTO)
++ ResponseEntity<AdministradorDTO> verificar(AdministradorDTO)
++ ResponseEntity<AdministradorDTO> crearAdmin(AdministradorDTO)
++ ResponseEntity<AdministradorDTO> eliminarAdmin(String)
+}
+
+
+class com.nomEmpresa.nomProyecto.configuration.security.Autenticacion {
+- IAdministradorRepository administradorRepository
++ UserDetails loadUserByUsername(String)
+}
+
+
+class com.nomEmpresa.nomProyecto.dto.modelos.ServicioDto {
+- String titulo
+- String subtitulo
+- String descripcion
+- List<String> incluido
+- List<String> exclusivo
+- String notas
+- String tipo
+- Float precio
++ List<String> incluido()
++ String notas()
++ String tipo()
++ String descripcion()
++ Float precio()
++ String titulo()
++ String subtitulo()
++ List<String> exclusivo()
+}
+
+
+class com.nomEmpresa.nomProyecto.controladores.AdminController {
+- GaleriaService galeriaService
+- MultimediaService multimediaService
++ ResponseEntity<PaginaPersonalizada<GaleriaDTO>> listarGalerias(Boolean,Boolean,Instant,int,int,String)
++ ResponseEntity<GaleriaDTO> crearGaleria(String,MultipartFile,MultipartFile,HttpServletRequest)
++ ResponseEntity<String> deleteMulti(String)
++ ResponseEntity<String> deleteNota(String,String)
++ ResponseEntity<String> deleteGaleria(String)
++ ResponseEntity<GaleriaDTO> updateGaleria(String,String,MultipartFile,MultipartFile,HttpServletRequest)
+}
+
+
+interface com.nomEmpresa.nomProyecto.repositorio.IAdministradorRepository {
+~ Optional<Administrador> findByNombre(String)
+~ Boolean existsByNombre(String)
+~ void deleteByNombre(String)
+~ Boolean existsByNombreAndContrasenia(String,String)
+}
+
+class com.nomEmpresa.nomProyecto.modelos.Servicio {
+- Long id
+- String titulo
+- String subtitulo
+- String Descripcion
+- List<String> incluido
+- List<String> exclusivo
+- String notas
+- String tipo
+- Float precio
+- DatosAuxiliares datosAuxiliares
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.nomEmpresa.nomProyecto.errores.ControllerAdvice {
++ ResponseEntity<String> notFound()
+}
+
+class com.nomEmpresa.nomProyecto.dto.modelos.NotaDTO {
+- String contenido
+- Instant lastUpdated
++ String contenido()
++ Instant lastUpdated()
+}
+
+
+abstract class com.nomEmpresa.nomProyecto.servicio.DTOMapper {
++ {static} GaleriaDTO galeriaDTO(Galeria,Boolean,Boolean)
++ {static} List<NotaDTO> notasDTO(List<Nota>)
++ {static} DatosAuxiliaresDTO getDatosAuxiliaresDTO(DatosAuxiliares)
++ {static} Set<ServicioDto> getServiciosDto(Set<Servicio>)
+}
+
+class com.nomEmpresa.nomProyecto.dto.modelos.DatosAuxiliaresDTO {
+- String presentacion
+- String direccion
+- String celular
+- String horario
+- String email
+- String facebook
+- String instagram
+- String whatsapp
+- Set<ServicioDto> servicios
++ Set<ServicioDto> servicios()
++ String whatsapp()
++ String presentacion()
++ String facebook()
++ String celular()
++ String direccion()
++ String horario()
++ String email()
++ String instagram()
+}
+
+
+class com.nomEmpresa.nomProyecto.configuration.OpenApiConfig {
++ OpenAPI openAPI()
+}
+
+class com.nomEmpresa.nomProyecto.dto.AdministradorDTO {
+- String nombre
+- String contrasenia
++ String nombre()
++ String contrasenia()
+}
+
+
+class com.nomEmpresa.nomProyecto.servicio.BucketService {
+- AmazonS3 s3
+- ObjectMapper mapper
+- String nombreBucket
+- IMultimediaRepository multimediaRepository
+- IGaleriaRepository galeriaRepository
++ ResponseEntity<String> uploadMulti(Galeria,MultipartFile,HttpServletRequest)
++ String getUrlDeRecurso(String,HttpServletRequest,File)
++ ResponseEntity<WasabiResponse> getAll()
++ File multipartFileToFile(MultipartFile)
++ ResponseEntity<String> deleteMulti(String)
++ ResponseEntity<byte[]> getArchivo(String)
++ ResponseEntity<String> deleteGaleria(String)
+}
+
+
+class com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO {
+- String src
+- Instant lastUpdated
++ String src()
++ Instant lastUpdated()
+}
+
+
+interface com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository {
+~ Page<Multimedia> findByIdGaleriaAndFechaModificadoAfter(Galeria,Instant,Pageable)
+~ void deleteBySrc(String)
+}
+
+class com.nomEmpresa.nomProyecto.servicio.GaleriaService {
+- IGaleriaRepository galeriaRepository
+- IMultimediaRepository multimediaRepository
+- BucketService bucketService
++ ResponseEntity<PaginaPersonalizada<GaleriaDTO>> listarGalerias(Boolean,Boolean,Instant,Pageable)
++ ResponseEntity<GaleriaDTO> crearGaleria(String,MultipartFile,MultipartFile,HttpServletRequest)
++ ResponseEntity<String> deleteGaleria(String)
++ ResponseEntity<GaleriaDTO> updateGaleria(String,String,MultipartFile,MultipartFile,HttpServletRequest)
+}
+
+
+class com.nomEmpresa.nomProyecto.dto.respuestas.PaginaPersonalizada {
+# List<T> contenido
+# Integer paginaActual
+# Integer totalDePaginas
+# Integer tamaño
+# Long totalDeElementos
+}
+
+class com.nomEmpresa.nomProyecto.controladores.MultimediaController {
+- MultimediaService multimediaService
++ ResponseEntity<DetallesGaleriaPage> listarMulti(String,Instant,Integer,Integer,String,Integer,Integer,String)
++ ResponseEntity<String> uploadMulti(String,MultipartFile,HttpServletRequest)
++ ResponseEntity<byte[]> traerMultimedia(String,Boolean,Integer)
++ ResponseEntity<GaleriaDTO> subirNota(String,String)
+}
+
+
+interface com.nomEmpresa.nomProyecto.repositorio.IDatosAuxiliares {
+}
+class com.nomEmpresa.nomProyecto.configuration.S3StorageConfig {
+- String username
+- String accesKey
+- String secretKey
+- String region
+- String serviceUrl
++ AmazonS3 credentials()
+}
+
+
+interface com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository {
+~ List<Galeria> findAllWithDetails()
+~ Page<Galeria> findByfechaDeCreacionAfter(Instant,Pageable)
+~ List<Galeria> findAllByIdGaleria(String)
+}
+
+enum com.nomEmpresa.nomProyecto.modelos.TipoServicio {
++  PAQUETE
++  EXTRA
+}
+
+class com.nomEmpresa.nomProyecto.modelos.Galeria {
+- String idGaleria
+- String nombre
+- Instant fechaDeCreacion
+- Set<Multimedia> multimedias
+- Multimedia imgPerfil
+- Multimedia imgBanner
+- List<Nota> notas
++ void generarId()
++ boolean equals(Object)
++ int hashCode()
++ void setMultimedias(Set<Multimedia>)
+}
+
+
+abstract class com.nomEmpresa.nomProyecto.servicio.Validador {
+- {static} Set<String> formatosPermitidos
++ {static} Boolean validarFormatoMultimedia(MultipartFile)
++ {static} Boolean validarNombreMultimmedia(MultipartFile)
+}
+
+
+class com.nomEmpresa.nomProyecto.controladores.DatosController {
+- DatosAuxiliaresService datosAuxiliaresService
++ ResponseEntity<DatosAuxiliaresDTO> getDatosAuxiliares()
++ ResponseEntity<DatosAuxiliaresDTO> setDatosAuxiliares(String,String,String,String,String,String,String,String)
++ ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto)
++ ResponseEntity<DatosAuxiliaresDTO> eliminarServicio(String)
+}
+
+
+class com.nomEmpresa.nomProyecto.servicio.DatosAuxiliaresService {
+- IDatosAuxiliares repositorio
+- IServicioRepository servicioRepository
++ ResponseEntity<DatosAuxiliaresDTO> editar(DatosAuxiliaresDTO)
++ ResponseEntity<DatosAuxiliaresDTO> traer()
++ ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto)
++ ResponseEntity<DatosAuxiliaresDTO> eliminarServicio(String)
+- ResponseEntity<DatosAuxiliaresDTO> sinRegistroExistente()
+- ResponseEntity<DatosAuxiliaresDTO> aceptado(DatosAuxiliares)
+}
+
+
+class com.nomEmpresa.nomProyecto.modelos.Administrador {
+- String nombre
+- String contrasenia
+- Roles rol
++ AdministradorDTO getDto()
++ void generarId()
++ Collection<? extends GrantedAuthority> getAuthorities()
++ String getPassword()
++ String getUsername()
++ String getNombre()
++ void setNombre(String)
++ String getContrasenia()
++ void setContrasenia(String)
+}
+
+
+interface com.nomEmpresa.nomProyecto.repositorio.IServicioRepository {
+~ void eliminar(String)
+}
+
+class com.nomEmpresa.nomProyecto.dto.wasabi.BucketObject {
+- String bucketContenedor
+- String nombre
+- String tamanio
+- String ultimaModificacion
+- String storageClass
+- String etag
+}
+
+class com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage {
+- String idGaleria
+- MultimediaDTO imagenPerfil
+- MultimediaDTO imagenBanner
+- String nombre
+- Instant fechaDeCreacion
+- PaginaPersonalizada<MultimediaDTO> fotosPage
+- PaginaPersonalizada<NotaDTO> notasPage
+}
+
+class com.nomEmpresa.nomProyecto.modelos.Nota {
+- Long id
+- String contenido
+- Instant hora
+- Galeria galeria
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+interface com.nomEmpresa.nomProyecto.repositorio.INotaRepository {
+~ void deleteByContenidoAndGaleria(String,Galeria)
+~ Optional<Nota> findByContenidoIgnoreCaseAndGaleria(String,Galeria)
+~ Page<Nota> findByGaleria(Galeria,Pageable)
+}
+
+class com.nomEmpresa.nomProyecto.modelos.DatosAuxiliares {
+- Long id
+- String presentacion
+- String direccion
+- String celular
+- String horario
+- String email
+- String facebook
+- String instagram
+- String whatsapp
+- Set<Servicio> servicios
++ void agregarServicio(Servicio)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.nomEmpresa.nomProyecto.NomProyectoApplication {
+- AdministradorService administradorService
+- IDatosAuxiliares datosAuxiliaresRepository
+- String usuarioDefecto
+- String claveDefecto
++ {static} void main(String[])
++ void run(String)
+}
+
+
+class com.nomEmpresa.nomProyecto.configuration.security.SecurityConfig {
+- Autenticacion autenticacionService
++ SecurityFilterChain securityFilterChain(HttpSecurity)
++ DaoAuthenticationProvider authenticationProvider(UserDetailsService,PasswordEncoder)
++ CorsConfigurationSource corsConfigurationSource()
++ PasswordEncoder passwordEncoder()
+}
+
+
+class com.nomEmpresa.nomProyecto.dto.wasabi.WasabiResponse {
+- List<BucketObject> archivos
+- String bucketContenedor
+- Integer cantidadDeElementos
+}
+
+class com.nomEmpresa.nomProyecto.configuration.JpaConfig {
+- String driver
+- String url
+- String usuario
+- String contrasenia
+- Integer maxPoolSize
++ DataSource dataSource()
+}
+
+
+
+
+org.springframework.security.core.userdetails.UserDetailsService <|.. com.nomEmpresa.nomProyecto.configuration.security.Autenticacion
+org.springframework.data.jpa.repository.JpaRepository <|-- com.nomEmpresa.nomProyecto.repositorio.IAdministradorRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.nomEmpresa.nomProyecto.repositorio.IMultimediaRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.nomEmpresa.nomProyecto.repositorio.IDatosAuxiliares
+org.springframework.data.jpa.repository.JpaRepository <|-- com.nomEmpresa.nomProyecto.repositorio.IGaleriaRepository
+org.springframework.security.core.userdetails.UserDetails <|.. com.nomEmpresa.nomProyecto.modelos.Administrador
+org.springframework.data.jpa.repository.JpaRepository <|-- com.nomEmpresa.nomProyecto.repositorio.IServicioRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.nomEmpresa.nomProyecto.repositorio.INotaRepository
+org.springframework.boot.CommandLineRunner <|.. com.nomEmpresa.nomProyecto.NomProyectoApplication
+@enduml
