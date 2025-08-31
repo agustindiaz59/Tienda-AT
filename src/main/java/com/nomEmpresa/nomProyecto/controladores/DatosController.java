@@ -54,26 +54,28 @@ public class DatosController {
     )
     @PutMapping
     public ResponseEntity<DatosAuxiliaresDTO> setDatosAuxiliares(
-            @RequestParam(required = false) String presentacion,
-            @RequestParam(required = false) String direccion,
-            @RequestParam(required = false) String celular,
-            @RequestParam(required = false) String horario,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String facebook,
-            @RequestParam(required = false) String instagram,
-            @RequestParam(required = false) String whatsapp
+            @RequestBody(required = true) DatosAuxiliaresDTO dto
+//            @RequestParam(required = false) String presentacion,
+//            @RequestParam(required = false) String direccion,
+//            @RequestParam(required = false) String celular,
+//            @RequestParam(required = false) String horario,
+//            @RequestParam(required = false) String email,
+//            @RequestParam(required = false) String facebook,
+//            @RequestParam(required = false) String instagram,
+//            @RequestParam(required = false) String whatsapp
     ){
-        return datosAuxiliaresService.editar(new DatosAuxiliaresDTO(
-                presentacion,
-                direccion,
-                celular,
-                horario,
-                email,
-                facebook,
-                instagram,
-                whatsapp,
-                null
-        ));
+        return datosAuxiliaresService.editar(dto);
+//        return datosAuxiliaresService.editar(new DatosAuxiliaresDTO(
+//                presentacion,
+//                direccion,
+//                celular,
+//                horario,
+//                email,
+//                facebook,
+//                instagram,
+//                whatsapp,
+//                null
+//        ));
     }
 
 
@@ -85,7 +87,9 @@ public class DatosController {
             summary = "Agrega un servicio a los disponibles"
     )
     @PostMapping("/servicios")
-    public ResponseEntity<DatosAuxiliaresDTO> agregarServicio(ServicioDto servicioDto){
+    public ResponseEntity<DatosAuxiliaresDTO> agregarServicio(
+            @RequestBody ServicioDto servicioDto
+    ){
         return datosAuxiliaresService.agregarServicio(servicioDto);
     }
 

@@ -18,7 +18,7 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column()
     private String titulo;
 
     @Column
