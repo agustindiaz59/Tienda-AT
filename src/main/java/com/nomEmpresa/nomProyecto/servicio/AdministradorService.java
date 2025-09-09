@@ -1,6 +1,5 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
-import com.github.benmanes.caffeine.cache.Cache;
 import com.nomEmpresa.nomProyecto.dto.AdministradorDTO;
 import com.nomEmpresa.nomProyecto.modelos.Administrador;
 import com.nomEmpresa.nomProyecto.repositorio.IAdministradorRepository;

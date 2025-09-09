@@ -1,10 +1,7 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.DatosAuxiliaresDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.ServicioDto;
 import com.nomEmpresa.nomProyecto.dto.respuestas.DetallesGaleriaPage;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.servicio.DatosAuxiliaresService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import com.nomEmpresa.nomProyecto.servicio.Validador;
 import io.swagger.v3.oas.annotations.Operation;
@@ -81,6 +78,7 @@ public class MultimediaController {
             @RequestParam(value = "elementosPorPaginaFotos", required = false, defaultValue = "10") Integer elementosPorPaginaFotos,
             @RequestParam(value = "ordenFotos", required = false, defaultValue = "DESC") String ordenFotos,
 
+            @RequestParam(value = "ultimaFechaNotas", required = false, defaultValue = "2000-01-01T00:00:00Z") Instant ultimaFechaNotas,
             @RequestParam(value = "paginaNotas", required = false, defaultValue = "0") Integer numeroDePaginaNotas,
             @RequestParam(value = "elementosPorPaginaNotas", required = false, defaultValue = "10") Integer elementosPorPaginaNotas,
             @RequestParam(value = "ordenNotas", required = false, defaultValue = "DESC") String ordenNotas
@@ -100,6 +98,7 @@ public class MultimediaController {
         return multimediaService.listarMulti(
                 idGaleria,
                 ultimaFecha,
+                ultimaFechaNotas,
                 PageRequest.of(numeroDePaginaFotos, elementosPorPaginaFotos, Sort.by(Sort.Direction.fromString(ordenFotos), "fechaModificado")),
                 PageRequest.of(numeroDePaginaNotas, elementosPorPaginaNotas, Sort.by(Sort.Direction.fromString(ordenNotas),"hora"))
         );

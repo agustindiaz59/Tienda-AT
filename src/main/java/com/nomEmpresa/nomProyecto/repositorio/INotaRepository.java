@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Repository
@@ -16,5 +17,5 @@ public interface INotaRepository extends JpaRepository<Nota, Long> {
 
     Optional<Nota> findByContenidoIgnoreCaseAndGaleria(String contenido, Galeria galeria);
 
-    Page<Nota> findByGaleria(Galeria galeria, Pageable notasPageSolicitada);
+    Page<Nota> findByGaleriaAndHoraAfter(Galeria galeria, Instant hora, Pageable notasPageSolicitada);
 }

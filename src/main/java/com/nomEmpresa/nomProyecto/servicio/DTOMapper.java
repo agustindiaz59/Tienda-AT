@@ -1,15 +1,22 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
+
 import com.nomEmpresa.nomProyecto.dto.modelos.*;
 import com.nomEmpresa.nomProyecto.modelos.*;
-import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
 public abstract class DTOMapper {
+
+
+
+
+
+
 
     /**
      *
@@ -87,6 +94,58 @@ public abstract class DTOMapper {
 
     /**
      *
+     * Toma una galeria y lo mapea a un DTO equivalente, filtrando el contenido por fechas posteriores a las dadas
+     *
+     * @param galeria Galeria almacenada en BBDD
+     * @param archivos Se desea incluir los archivos?
+     * @param notas Se desea incluir las notas?
+     * @param archivosDesde Fecha a partir de la cual incluir los archivos
+     * @param notasDesde Fecha a partir de la cual incluir las notas
+     * @return DTO con archivos y notas posteriores a las fechas dadas
+     */
+    public static GaleriaDTO galeriaDTO(
+            Galeria galeria,
+            Boolean archivos,
+            Boolean notas,
+            Instant archivosDesde,
+            Instant notasDesde
+    ){
+        //Filtrar las multimedia eliminando las anteriores a la fecha necesitada
+        galeria.setMultimedias(
+                galeria.getMultimedias()
+                        .stream()
+                        .filter(
+                                M -> M.getFechaModificado().isAfter(archivosDesde)
+                        )
+                        .collect(Collectors.toSet())
+        );
+
+        //Filtrar las notas eliminando las anteriores a la fecha necesitada
+        galeria.setNotas(
+                galeria.getNotas()
+                        .stream()
+                        .filter(
+                                N -> N.getHora().isAfter(notasDesde)
+                        )
+                        .toList()
+        );
+
+        //Con la galeria modificada por fechas rearmo la solicitud
+        return galeriaDTO(
+                galeria, archivos, notas
+        );
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     *
      * Toma una lista de notas y las mapea a una lista de DTO's listos para exponer
      *
      * @param notas Notas en cuestion
@@ -139,6 +198,19 @@ public abstract class DTOMapper {
                                 )
                 )
                 .collect(Collectors.toSet());
+    }
+
+    public static Set<Servicio> servicioDTOservicio(Set<ServicioDto> dto){
+        return dto.stream().map(
+                        DTOMapper::servicioDTOServicio
+                )
+                .collect(Collectors.toSet());
+    }
+
+    public static Servicio servicioDTOServicio(ServicioDto dto){
+        return new Servicio(
+                dto
+        );
     }
 
 

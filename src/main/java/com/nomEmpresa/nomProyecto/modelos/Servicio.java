@@ -1,13 +1,11 @@
 package com.nomEmpresa.nomProyecto.modelos;
 
+import com.nomEmpresa.nomProyecto.dto.modelos.ServicioDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.proxy.HibernateProxy;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Getter
@@ -25,12 +23,16 @@ public class Servicio {
     private String subtitulo;
 
     @Column
-    private String Descripcion;
+    private String descripcion;
 
     @Column
+    @ElementCollection
+    @CollectionTable(name = "servicio_incluidp", joinColumns = @JoinColumn(name = "owner_id"))
     private List<String> incluido;
 
     @Column
+    @ElementCollection
+    @CollectionTable(name = "servicio_exclusivo", joinColumns = @JoinColumn(name = "owner_id"))
     private List<String> exclusivo;
 
     @Column
@@ -45,6 +47,19 @@ public class Servicio {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "datos_auxiliares_id")
     private DatosAuxiliares datosAuxiliares;
+
+    public Servicio(){}
+
+    public Servicio(ServicioDto dto) {
+        titulo = dto.titulo();
+        subtitulo = dto.subtitulo();
+        descripcion = dto.descripcion();
+        incluido = dto.incluido();
+        exclusivo = dto.exclusivo();
+        notas = dto.notas();
+        tipo = dto.tipo();
+        precio = dto.precio();
+    }
 
     @Override
     public boolean equals(Object o) {

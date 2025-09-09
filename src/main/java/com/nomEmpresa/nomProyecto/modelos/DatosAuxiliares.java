@@ -44,7 +44,7 @@ public class DatosAuxiliares {
 
 
     // Relaciones
-    @OneToMany(mappedBy = "datosAuxiliares", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "datosAuxiliares", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Servicio> servicios = new LinkedHashSet<>();
 
     /*

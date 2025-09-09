@@ -1,14 +1,12 @@
 package com.nomEmpresa.nomProyecto.modelos;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "notas")

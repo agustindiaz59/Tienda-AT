@@ -1,7 +1,6 @@
 package com.nomEmpresa.nomProyecto.dto.modelos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nomEmpresa.nomProyecto.modelos.Nota;
 
 import java.time.Instant;
 import java.util.List;

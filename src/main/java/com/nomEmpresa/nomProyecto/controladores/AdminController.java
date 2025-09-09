@@ -1,9 +1,7 @@
 package com.nomEmpresa.nomProyecto.controladores;
 
-import com.nomEmpresa.nomProyecto.dto.modelos.DatosAuxiliaresDTO;
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
 import com.nomEmpresa.nomProyecto.dto.respuestas.PaginaPersonalizada;
-import com.nomEmpresa.nomProyecto.servicio.DatosAuxiliaresService;
 import com.nomEmpresa.nomProyecto.servicio.GaleriaService;
 import com.nomEmpresa.nomProyecto.servicio.MultimediaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,12 +71,14 @@ public class AdminController {
             @RequestParam(value = "archivos",required = false, defaultValue = "false") Boolean archivos,
             @RequestParam(value = "notas",required = false, defaultValue = "false") Boolean notas,
 
-            @RequestParam(value = "ultimaFecha", required = false, defaultValue = "2000-01-01T00:00:00.000Z") Instant ultimaFecha,
+            @RequestParam(value = "archivosDesde", required = false, defaultValue = "2000-01-01T00:00:00.000Z") Instant archivosDesde,
             @RequestParam(value = "paginaSolicitadaMulti", required = false, defaultValue = "0") int paginaSolicitadaMulti,
             @RequestParam(value = "elementosPorPaginaMulti", required = false, defaultValue = "10") int elementosPorPaginaMulti,
-            @RequestParam(value = "ordenMulti", required = false, defaultValue = "DESC") String ordenMulti
+            @RequestParam(value = "ordenMulti", required = false, defaultValue = "DESC") String ordenMulti,
 
             // TODO paginar las notas asi cómo a las fotos
+            @RequestParam(value = "notasDesde", defaultValue = "2000-01-01T00:00:00.000Z") Instant notasDesde
+
             //,@RequestParam(value = "paginaSolicitadaNotas", required = false, defaultValue = "0") int paginaSolicitadaNotas,
             //@RequestParam(value = "elementosPorPaginaNotas", required = false, defaultValue = "10") int elementosPorPaginaNotas,
             //@RequestParam(value = "ordenNotas", required = false, defaultValue = "DESC") String ordenNotas
@@ -94,7 +94,8 @@ public class AdminController {
             return galeriaService.listarGalerias(
                     archivos,
                     notas,
-                    ultimaFecha,
+                    archivosDesde,
+                    notasDesde,
                     PageRequest.of(paginaSolicitadaMulti, elementosPorPaginaMulti, Sort.by(Sort.Direction.fromString(ordenMulti),"fechaDeCreacion"))
                     //,PageRequest.of(paginaSolicitadaNotas, elementosPorPaginaNotas, Sort.by(Sort.Direction.fromString(ordenNotas),"contenido"))
             );

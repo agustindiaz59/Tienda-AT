@@ -100,7 +100,8 @@ public class MultimediaService {
      */
     public ResponseEntity<DetallesGaleriaPage> listarMulti(
             String idGaleria,
-            Instant desde,
+            Instant multiDesde,
+            Instant notasDesde,
             Pageable multimediaPageSolicitada,
             Pageable notasPageSolicitada
     ) {
@@ -118,16 +119,19 @@ public class MultimediaService {
                                 galeria.get().getIdGaleria(),
                                 galeria.get().getNombre()
                         ),
-                        desde,
+                        multiDesde,
                         multimediaPageSolicitada
                 );
 
         //Traigo las notas relacionadas a esa galeria
-        Page<Nota> notas = notaRepository.findByGaleria(
+        Page<Nota> notas = notaRepository.findByGaleriaAndHoraAfter(
                 new Galeria(
                 galeria.get().getIdGaleria(),
                 galeria.get().getNombre()
-        ) ,notasPageSolicitada);
+                ),
+                notasDesde,
+                notasPageSolicitada
+        );
 
 
         //Armo la respuesta

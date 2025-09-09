@@ -36,7 +36,7 @@ public class DatosAuxiliaresService {
 
     public ResponseEntity<DatosAuxiliaresDTO> editar(DatosAuxiliaresDTO dto){
         //Buscar el registro en la BBDD, id por defecto 1
-        DatosAuxiliares nuevo = new DatosAuxiliares();
+        DatosAuxiliares nuevo = repositorio.findById(1L).get();
 
         //Actualizar el registro
 
@@ -48,6 +48,8 @@ public class DatosAuxiliaresService {
         nuevo.setFacebook(dto.facebook());
         nuevo.setInstagram(dto.instagram());
         nuevo.setWhatsapp(dto.whatsapp());
+        nuevo.setServicios(DTOMapper.servicioDTOservicio(dto.servicios()));
+        nuevo.getServicios().forEach(s -> s.setDatosAuxiliares(nuevo));
 
         //Guardar cambios
         repositorio.save(nuevo);

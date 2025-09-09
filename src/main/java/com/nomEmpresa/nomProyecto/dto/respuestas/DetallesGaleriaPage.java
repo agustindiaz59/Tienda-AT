@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor

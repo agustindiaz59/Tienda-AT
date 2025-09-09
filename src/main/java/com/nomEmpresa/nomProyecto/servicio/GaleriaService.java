@@ -1,7 +1,6 @@
 package com.nomEmpresa.nomProyecto.servicio;
 
 import com.nomEmpresa.nomProyecto.dto.modelos.GaleriaDTO;
-import com.nomEmpresa.nomProyecto.dto.modelos.MultimediaDTO;
 import com.nomEmpresa.nomProyecto.dto.respuestas.PaginaPersonalizada;
 import com.nomEmpresa.nomProyecto.modelos.Galeria;
 import com.nomEmpresa.nomProyecto.modelos.Multimedia;
@@ -16,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -73,11 +70,12 @@ public class GaleriaService {
     public ResponseEntity<PaginaPersonalizada<GaleriaDTO>> listarGalerias(
             Boolean archivos,
             Boolean notas,
-            Instant desde,
+            Instant archivosDesde,
+            Instant notasDesde,
             Pageable paginaSolicitada
     ) {
         //Busco todas las galerias luego de cierta fecha
-        Page<Galeria> aux = galeriaRepository.findByfechaDeCreacionAfter(desde,paginaSolicitada);
+        Page<Galeria> aux = galeriaRepository.findByfechaDeCreacionAfter(archivosDesde,paginaSolicitada);
 
         //Armo la respuesta
         PaginaPersonalizada<GaleriaDTO> galeriaPage = PaginaPersonalizada
@@ -86,7 +84,7 @@ public class GaleriaService {
                         aux
                             .getContent()
                             .stream()
-                            .map( g -> DTOMapper.galeriaDTO(g,archivos,notas))
+                            .map( g -> DTOMapper.galeriaDTO(g,archivos,notas,archivosDesde,notasDesde))
                             .toList()
                 )
                 .paginaActual(aux.getNumber())
@@ -183,7 +181,7 @@ public class GaleriaService {
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(DTOMapper.galeriaDTO(nuevo,true,true)); //TODO Verificar repercuciones en el metodo
+                    .body(DTOMapper.galeriaDTO(nuevo,true,true));
         }
 
         return ResponseEntity.internalServerError().build();
