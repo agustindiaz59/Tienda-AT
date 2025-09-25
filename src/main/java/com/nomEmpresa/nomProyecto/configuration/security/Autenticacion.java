@@ -20,7 +20,7 @@ public class Autenticacion implements UserDetailsService {
 
 
     @Override
-    @Cacheable(value = "ADMINISTRADOR")
+    //@Cacheable(value = "ADMINISTRADOR")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //Busca el registro del administrador por su nombre

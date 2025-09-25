@@ -12,10 +12,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableCaching
+//@EnableCaching
 public class CacheConfig {
 
-    @Bean
+    @Bean()
     public CacheManager cacheManager(){
         Set<CaffeineCache> caches = Set.of(
                 cacheBuild("ADMINISTRADOR",1L, TimeUnit.DAYS),

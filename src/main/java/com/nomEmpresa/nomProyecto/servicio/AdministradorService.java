@@ -46,7 +46,7 @@ public class AdministradorService {
 
 
     @Transactional
-    @CachePut("ADMINISTRADOR")
+    //@CachePut("ADMINISTRADOR")
     public ResponseEntity<AdministradorDTO> cambiarContraseniaAdmin(
         AdministradorDTO dto
     ){
@@ -64,7 +64,8 @@ public class AdministradorService {
         return crearAdmin(dto);
     }
 
-    @CacheEvict("ADMINISTRADOR")
+    @Transactional
+    //@CacheEvict("ADMINISTRADOR")
     public ResponseEntity<AdministradorDTO> crearAdmin(AdministradorDTO dto) {
 
         // Sobreescribo o creo el administrador con el mismo nombre
@@ -75,7 +76,7 @@ public class AdministradorService {
     }
 
 
-    @CacheEvict("ADMINISTRADOR")
+    //@CacheEvict("ADMINISTRADOR")
     public ResponseEntity<AdministradorDTO> eliminarAdministrador(String nombreUsuario) {
 
         if(!administradorRepository.existsByNombre(nombreUsuario)){
@@ -95,12 +96,12 @@ public class AdministradorService {
 
 
 
-    @Cacheable(value = "ADMINISTRADOR")
-    public Administrador consultarAdministrador(String nombre){
-        return administradorRepository.findByNombre(nombre).orElse(null);
+//    @Cacheable(value = "ADMINISTRADOR")
+    public Optional<Administrador> consultarAdministrador(String nombre){
+        return administradorRepository.findByNombre(nombre);
     }
 
-    @Cacheable(value = "CONTRASENIAS")
+    //@Cacheable(value = "CONTRASENIAS")
     public boolean compararContrasenias(String raw, String encoded){
         return passwordEncoder.matches(raw,encoded);
     }

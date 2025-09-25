@@ -67,6 +67,18 @@ public class LoginController {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     @Operation(
             summary = "Verifica las credenciales del usuario",
             description = "Método público, verifica las credenciales del usuario (usuario y contraseña)",
@@ -88,15 +100,14 @@ public class LoginController {
             @RequestBody
             AdministradorDTO dto
     ){
-        Optional<Administrador> administrador = Optional.of(administradorService.consultarAdministrador(dto.nombre()));
+        Optional<Administrador> administrador = administradorService.consultarAdministrador(dto.nombre());
 
         //No existe en la base de datos
         if(administrador.isEmpty()){
             return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .status(HttpStatus.NOT_FOUND)
                     .body(dto);
         }
-
 
         boolean existe = administradorService.compararContrasenias(dto.contrasenia(), administrador.get().getPassword());
 
@@ -111,6 +122,22 @@ public class LoginController {
                     .body(dto);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

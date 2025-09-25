@@ -4,6 +4,8 @@ import com.nomEmpresa.nomProyecto.dto.modelos.ServicioDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.SqlTypes;
 
 import java.util.*;
 
@@ -16,18 +18,19 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column()
+    @Column
     private String titulo;
 
     @Column
     private String subtitulo;
 
-    @Column
+    @Lob //Large Object
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     @Column
     @ElementCollection
-    @CollectionTable(name = "servicio_incluidp", joinColumns = @JoinColumn(name = "owner_id"))
+    @CollectionTable(name = "servicio_incluidp", joinColumns = @JoinColumn(name = "owner_id")) //TODO error de tipeo
     private List<String> incluido;
 
     @Column

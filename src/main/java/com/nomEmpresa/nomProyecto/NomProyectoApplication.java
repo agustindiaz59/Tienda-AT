@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Optional;
 
 @SpringBootApplication
+//@PropertySource("classpath:application.properties")
 public class NomProyectoApplication implements CommandLineRunner {
 
 	@Autowired
@@ -50,9 +52,10 @@ public class NomProyectoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		//Inicio el archivo de log
+		System.out.println(usarLogs);
 		if (usarLogs){
 			try {
-				System.out.println("Redirigiendo a archivos de log en: \n\rSalida: " + logsDeSalida + "\n\rError: " + logsDeError);
+				System.out.println("Redirigiendo a archivos de log en: \nSalida: " + logsDeSalida + "\nError: " + logsDeError);
 				System.setOut(new PrintStream(logsDeSalida));
 				System.setErr(new PrintStream(logsDeError));
 			}catch (FileNotFoundException e){

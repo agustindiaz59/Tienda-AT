@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +32,12 @@ public class Nota {
     @JoinColumn(name = "galeria_id")
     private Galeria galeria;
 
+
+    public Nota(String contenido) {
+        ZoneId argentinaZone = ZoneId.of("America/Argentina/Buenos_Aires"); //Corrijo el UTC a UTC-3(zona horaria en argentina)
+        this.hora = LocalDateTime.now(argentinaZone).toInstant(ZoneOffset.UTC);
+        this.contenido = contenido;
+    }
 
     public Nota(String contenido, Instant hora) {
         this.hora = hora;

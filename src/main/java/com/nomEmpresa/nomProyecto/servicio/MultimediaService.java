@@ -262,7 +262,7 @@ public class MultimediaService {
 
         //Agrego la nota
         Galeria editado = galeria.get();
-        Nota nuevaNota = new Nota(nota, Instant.now());
+        Nota nuevaNota = new Nota(nota);
         nuevaNota.setGaleria(editado);
         editado.getNotas().add(nuevaNota);
 

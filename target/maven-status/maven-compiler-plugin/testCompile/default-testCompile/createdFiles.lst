@@ -1,8 +1,8 @@
-com\nomEmpresa\nomProyecto\servicio\DTOMapperTest.class
-com\nomEmpresa\nomProyecto\NomProyectoApplicationTests.class
-com\nomEmpresa\nomProyecto\servicio\AdministradorServiceTest.class
-com\nomEmpresa\nomProyecto\controladores\AdminControllerTest.class
 com\nomEmpresa\nomProyecto\servicio\MultimediaServiceTest.class
 com\nomEmpresa\nomProyecto\controladores\MultimediaControllerTest.class
 com\nomEmpresa\nomProyecto\servicio\GaleriaServiceTest.class
+com\nomEmpresa\nomProyecto\servicio\DTOMapperTest.class
+com\nomEmpresa\nomProyecto\NomProyectoApplicationTests.class
 com\nomEmpresa\nomProyecto\controladores\LoginControllerTest.class
+com\nomEmpresa\nomProyecto\servicio\AdministradorServiceTest.class
+com\nomEmpresa\nomProyecto\controladores\AdminControllerTest.class
