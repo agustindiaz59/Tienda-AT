@@ -51,19 +51,6 @@ public class NomProyectoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		//Inicio el archivo de log
-		System.out.println(usarLogs);
-		if (usarLogs){
-			try {
-				System.out.println("Redirigiendo a archivos de log en: \nSalida: " + logsDeSalida + "\nError: " + logsDeError);
-				System.setOut(new PrintStream(logsDeSalida));
-				System.setErr(new PrintStream(logsDeError));
-			}catch (FileNotFoundException e){
-				System.out.println("-- Las rutas de logs no son válidas");
-				System.out.println("-- " + e.getMessage());
-			}
-
-		}
 
 
 
@@ -78,5 +65,21 @@ public class NomProyectoApplication implements CommandLineRunner {
 			datosAuxiliaresRepository.save(new DatosAuxiliares());
 		}
 
+	}
+
+	private void iniciarLogs(){
+		//Inicio el archivo de log
+		System.out.println(usarLogs);
+		if (usarLogs){
+			try {
+				System.out.println("Redirigiendo a archivos de log en: \nSalida: " + logsDeSalida + "\nError: " + logsDeError);
+				System.setOut(new PrintStream(logsDeSalida));
+				System.setErr(new PrintStream(logsDeError));
+			}catch (FileNotFoundException e){
+				System.out.println("-- Las rutas de logs no son válidas");
+				System.out.println("-- " + e.getMessage());
+			}
+
+		}
 	}
 }
