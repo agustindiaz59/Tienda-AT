@@ -188,14 +188,14 @@ public abstract class DTOMapper {
                 .map( servicio ->
                         new ServicioDto(
                                 servicio.getTitulo(),
+                                servicio.getTituloExtra(),
                                 servicio.getSubtitulo(),
                                 servicio.getDescripcion(),
                                 servicio.getIncluido(),
                                 servicio.getExclusivo(),
                                 servicio.getNotas(),
                                 servicio.getTipo(),
-                                servicio.getPrecio()
-                                )
+                                servicio.getPrecio())
                 )
                 .collect(Collectors.toSet());
     }

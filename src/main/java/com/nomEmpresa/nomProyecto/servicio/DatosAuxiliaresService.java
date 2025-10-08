@@ -105,6 +105,7 @@ public class DatosAuxiliaresService {
         //Nuevo servicio
         Servicio nuevo = new Servicio();
         nuevo.setTitulo(servicioDto.titulo());
+        nuevo.setTituloExtra(servicioDto.tituloExtra());
         nuevo.setSubtitulo(servicioDto.subtitulo());
         nuevo.setDescripcion(servicioDto.descripcion());
         nuevo.setPrecio(servicioDto.precio());

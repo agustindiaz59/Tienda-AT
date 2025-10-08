@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -47,52 +48,6 @@ public class Galeria {
 
     @OneToMany(mappedBy = "galeria", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Nota> notas = new ArrayList<>();
-
-//    @Transient
-//    @Deprecated
-//    public GaleriaDTO getDTO(){
-//        Set<MultimediaDTO> dtoArchivos = multimedias
-//                .stream()
-//                .map(Multimedia::getDTO)
-//                .collect(Collectors.toSet());
-//
-//        if (imgPerfil == null && imgBanner == null)
-//            return new GaleriaDTO(
-//                    idGaleria,
-//                    dtoArchivos,
-//                    nombre,
-//                    fechaDeCreacion,
-//                    GaleriaMapper.notasDTO(notas)
-//            );
-//        if (imgBanner == null)
-//            return new GaleriaDTO(
-//                    idGaleria,
-//                    imgPerfil.getDTO(),
-//                    dtoArchivos,
-//                    nombre,
-//                    fechaDeCreacion,
-//                    GaleriaMapper.notasDTO(notas)
-//            );
-//        if (imgPerfil == null)
-//            return new GaleriaDTO(
-//                    idGaleria,
-//                    dtoArchivos,
-//                    nombre,
-//                    fechaDeCreacion,
-//                    imgBanner.getDTO(),
-//                    GaleriaMapper.notasDTO(notas)
-//            );
-//        return new GaleriaDTO(
-//                idGaleria,
-//                imgPerfil.getDTO(),
-//                imgBanner.getDTO(),
-//                dtoArchivos,
-//                nombre,
-//                fechaDeCreacion,
-//                GaleriaMapper.notasDTO(notas)
-//        );
-//    }
-
 
 
 
@@ -146,6 +101,5 @@ public class Galeria {
         multimedias.remove(imgPerfil);
         this.multimedias = multimedias;
     }
-
 
 }

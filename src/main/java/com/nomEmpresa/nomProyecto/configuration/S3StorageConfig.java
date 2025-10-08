@@ -1,5 +1,6 @@
 package com.nomEmpresa.nomProyecto.configuration;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -30,11 +31,19 @@ public class S3StorageConfig {
 
     @Bean
     public AmazonS3 credentials(){
+
+        ClientConfiguration clientConfig = new ClientConfiguration()
+                .withMaxConnections(200)   // conexiones HTTP simultáneas
+                .withConnectionTimeout(10_000) // 10s
+                .withSocketTimeout(60_000)     // 60s
+                .withTcpKeepAlive(true);
+
         AWSCredentials credentials = new BasicAWSCredentials(accesKey,secretKey);
         return AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(serviceUrl,region))
+                .withClientConfiguration(clientConfig)
                 .build();
     }
 

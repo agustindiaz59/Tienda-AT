@@ -11,6 +11,8 @@ import com.nomEmpresa.nomProyecto.repositorio.INotaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.apache.tika.Tika;
+import org.apache.tika.mime.MimeTypeException;
+import org.apache.tika.mime.MimeTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -165,65 +167,125 @@ public class MultimediaService {
      * @param urlMultimedia Url relativa al bucket
      * @return Archivo multimedia solicitado
      */
+//    public ResponseEntity<byte[]> getArchivoComprimido(String urlMultimedia, Integer porcion){
+//
+//        //Obtengo la imagen en crudo
+//        byte[] crudo = bucketService.getArchivo(urlMultimedia).getBody();
+//
+//        if(crudo == null){
+//            System.out.println("-- El arreglo de bytes esta vacio. Imagen no encontrada");
+//            return ResponseEntity
+//                    .badRequest()
+//                    .build();
+//        }
+//
+//        //Obtengo la extension del archivo
+//        try (ImageInputStream iis = ImageIO.createImageInputStream(new ByteArrayInputStream(crudo))) {
+//            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+//            if (readers.hasNext()) {
+//
+//                //Objetos que leen los bytes como una imagen
+//                ByteArrayInputStream inputStream = new ByteArrayInputStream(crudo);
+//                BufferedImage originalImage = ImageIO.read(inputStream);
+//                ImageReader reader = readers.next();
+//
+//                //Obtiene una decima parte de la imagen
+//                String formatoDeSalida = reader.getFormatName(); // Ej: "JPEG", "PNG"
+//                int width = originalImage.getWidth() / porcion;
+//                int height = originalImage.getHeight() / porcion;
+//
+//
+//                //Reduzco la imagen
+//                BufferedImage resizedImage = new BufferedImage(width, originalImage.getHeight() / 10, BufferedImage.TYPE_INT_RGB);
+//                Graphics2D g = resizedImage.createGraphics();
+//                g.drawImage(originalImage, 0, 0, width, height, null);
+//                g.dispose();
+//
+//
+//                //Devuelvo la imagen a bytes
+//                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//                ImageIO.write(resizedImage, formatoDeSalida, outputStream);
+//
+//                //Libreria que detecta el tipo MIME del archivo
+//                Tika tika = new Tika();
+//                //Arma la respuesta HTTP
+//                return ResponseEntity.ok()
+//                        .contentType(MediaType.parseMediaType(tika.detect(outputStream.toByteArray())))
+//                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline") //; filename=\"" + filename + "\"") // usar en caso de querer mantener el nombre de la imagen entre solicitudes, falta resolver el nombre
+//                        .body(outputStream.toByteArray());
+//
+//            } else {
+//                System.out.println("-- No se pudo determinar el formato de imagen.");
+//                return ResponseEntity
+//                        .status(HttpStatus.NOT_ACCEPTABLE)
+//                        .body(null);
+//            }
+//        }catch (IOException exception){
+//            System.out.println("-- Error en la conversion de bytes de la imagen");
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
+//
+//    }
+
+
+
     public ResponseEntity<byte[]> getArchivoComprimido(String urlMultimedia, Integer porcion){
 
         //Obtengo la imagen en crudo
-        byte[] crudo = bucketService.getArchivo(urlMultimedia).getBody();
+        ResponseEntity<byte[]> prueba = bucketService.getArchivo(urlMultimedia);
 
-        if(crudo == null){
-            System.out.println("-- El arreglo de bytes esta vacio. Imagen no encontrada");
-            return ResponseEntity
-                    .badRequest()
-                    .build();
-        }
+        MediaType mime = MediaType.parseMediaType(
+                Objects.requireNonNull(
+                        prueba.getHeaders().getFirst("Content-Type")
+                )
+        );
 
-        //Obtengo la extension del archivo
-        try (ImageInputStream iis = ImageIO.createImageInputStream(new ByteArrayInputStream(crudo))) {
-            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
-            if (readers.hasNext()) {
+        String extension = prueba.getHeaders()
+                .getFirst("Extension");
 
-                //Objetos que leen los bytes como una imagen
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(crudo);
-                BufferedImage originalImage = ImageIO.read(inputStream);
-                ImageReader reader = readers.next();
-
-                //Obtiene una decima parte de la imagen
-                String formatoDeSalida = reader.getFormatName(); // Ej: "JPEG", "PNG"
-                int width = originalImage.getWidth() / porcion;
-                int height = originalImage.getHeight() / porcion;
+        byte[] crudo = prueba.getBody();
 
 
-                //Reduzco la imagen
-                BufferedImage resizedImage = new BufferedImage(width, originalImage.getHeight() / 10, BufferedImage.TYPE_INT_RGB);
-                Graphics2D g = resizedImage.createGraphics();
-                g.drawImage(originalImage, 0, 0, width, height, null);
-                g.dispose();
+        try {
+            //No son null debido a que se manejan en BucketService.getArchivo()
+            assert crudo != null;
+            assert extension != null;
 
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(crudo);
+            BufferedImage originalImage = ImageIO.read(inputStream);
+
+            //Obtiene una porcion de la imagen
+            int width = originalImage.getWidth() / porcion;
+            int height = originalImage.getHeight() / porcion;
+
+
+            //Reduzco la imagen
+            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, width, height, null);
+            g.dispose();
 
                 //Devuelvo la imagen a bytes
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ImageIO.write(resizedImage, formatoDeSalida, outputStream);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-                //Libreria que detecta el tipo MIME del archivo
-                Tika tika = new Tika();
-                //Arma la respuesta HTTP
-                return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(tika.detect(outputStream.toByteArray())))
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline") //; filename=\"" + filename + "\"") // usar en caso de querer mantener el nombre de la imagen entre solicitudes, falta resolver el nombre
-                        .body(outputStream.toByteArray());
+            ImageIO.write(resizedImage, extension, outputStream);
 
-            } else {
-                System.out.println("-- No se pudo determinar el formato de imagen.");
-                return ResponseEntity
-                        .status(HttpStatus.NOT_ACCEPTABLE)
-                        .body(null);
-            }
-        }catch (IOException exception){
-            System.out.println("-- Error en la conversion de bytes de la imagen");
-
+            //Arma la respuesta HTTP
+            return ResponseEntity.ok()
+                    .contentType(mime)
+                    .header(
+                            prueba.getHeaders()
+                                    .getFirst(HttpHeaders.CONTENT_DISPOSITION)
+                    ) //; filename=\"" + filename + "\"") // usar en caso de querer mantener el nombre de la imagen entre solicitudes, falta resolver el nombre
+                    .body(outputStream.toByteArray());
+        } catch (IOException e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
+                    .header("Error", "Error reduciendo la imagen")
+                    .body(null);
         }
 
     }

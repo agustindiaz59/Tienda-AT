@@ -218,17 +218,15 @@ public class BucketService {
             String filename = urlMultimedia.substring(urlMultimedia.lastIndexOf("/") + 1);
 
             // Validaciones básicas
-            if (content == null || content.length == 0) {
+            if (content.length == 0) {
                 return ResponseEntity.notFound().build();
-            }
-            if (contentType == null || contentType.isEmpty()) {
-                contentType = "application/octet-stream"; // Valor por defecto
             }
 
             //Arma la respuesta HTTP
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+                    .header("Extension", filename.substring(filename.lastIndexOf('.') + 1))
                     .body(content);
 
         }

@@ -22,6 +22,9 @@ public class Servicio {
     private String titulo;
 
     @Column
+    private String tituloExtra;
+
+    @Column
     private String subtitulo;
 
     @Lob //Large Object
@@ -55,6 +58,7 @@ public class Servicio {
 
     public Servicio(ServicioDto dto) {
         titulo = dto.titulo();
+        tituloExtra =dto.tituloExtra();
         subtitulo = dto.subtitulo();
         descripcion = dto.descripcion();
         incluido = dto.incluido();
