@@ -47,22 +47,7 @@ public class DatosAuxiliares {
     @OneToMany(mappedBy = "datosAuxiliares", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Servicio> servicios = new LinkedHashSet<>();
 
-    /*
-    Presentación
-        ...
-    Servicios
-        ...
-    Contacto
-        Direccion
-        Celular
-        Horario
-        Email
-    Redes sociales
-        Facebook
-        Instagram
-        WhatsApp
-     */
-
+    
     public DatosAuxiliares(){
         this.id = 1L;
     }

@@ -51,7 +51,7 @@ public class NomProyectoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-
+		iniciarLogs();
 
 
 		// Crea un usuario por defecto el para acceder a las funciones
@@ -69,7 +69,6 @@ public class NomProyectoApplication implements CommandLineRunner {
 
 	private void iniciarLogs(){
 		//Inicio el archivo de log
-		System.out.println(usarLogs);
 		if (usarLogs){
 			try {
 				System.out.println("Redirigiendo a archivos de log en: \nSalida: " + logsDeSalida + "\nError: " + logsDeError);
@@ -79,7 +78,8 @@ public class NomProyectoApplication implements CommandLineRunner {
 				System.out.println("-- Las rutas de logs no son válidas");
 				System.out.println("-- " + e.getMessage());
 			}
-
+		}else{
+			System.out.println("-- Usando logs por consola");
 		}
 	}
 }

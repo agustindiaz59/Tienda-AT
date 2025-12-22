@@ -33,12 +33,12 @@ public class Servicio {
 
     @Column
     @ElementCollection
-    @CollectionTable(name = "servicio_incluidp", joinColumns = @JoinColumn(name = "owner_id")) //TODO error de tipeo
+    @CollectionTable(name = "servicio_incluido", joinColumns = @JoinColumn(name = "servicio_id")) //TODO error de tipeo
     private List<String> incluido;
 
     @Column
     @ElementCollection
-    @CollectionTable(name = "servicio_exclusivo", joinColumns = @JoinColumn(name = "owner_id"))
+    @CollectionTable(name = "servicio_exclusivo", joinColumns = @JoinColumn(name = "servicio_id"))
     private List<String> exclusivo;
 
     @Column
